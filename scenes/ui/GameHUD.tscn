@@ -142,6 +142,18 @@ offset_right = 210.0
 offset_bottom = 252.0
 text = "Quit to Map"
 
+[node name="CameraHelp" type="Label" parent="PausePanel"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 258.0
+offset_right = 262.0
+offset_bottom = 294.0
+theme_override_colors/font_color = Color(0.72, 0.79, 0.87, 1)
+theme_override_font_sizes/font_size = 13
+text = "Camera: WASD / screen edge to pan  •  Q/E rotate  •  wheel zoom"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="VictoryPanel" type="Panel" parent="."]
 offset_left = 450.0
 offset_top = 220.0

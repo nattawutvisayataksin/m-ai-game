@@ -72,7 +72,8 @@ func _refresh_build_buttons() -> void:
 		if index >= tower_options.size():
 			continue
 		var data: TowerData = tower_options[index]
-		button.text = "%s\n$%d" % [data.display_name, data.cost]
+		var target_note: String = "" if data.can_hit_flying else " (ground only)"
+		button.text = "%s%s\n$%d" % [data.display_name, target_note, data.cost]
 		button.tooltip_text = _tower_tooltip(data)
 		button.disabled = not Economy.can_afford(data.cost)
 

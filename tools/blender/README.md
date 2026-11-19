@@ -34,6 +34,10 @@ The script exports:
 - `assets/models/generated/enemy_basic.glb`
 - `assets/models/generated/hero_basic.glb`
 
+Generate the Level 01 pine scenery separately with `create_stylized_pine.py`.
+It exports `assets/models/generated/stylized_pine.glb`, which Level 01 instances
+around the field perimeter without adding physics collisions.
+
 The generated meshes are intentionally simple blockout assets. Use them as a consistent base, then add topology and details while keeping the same palette materials.
 
 ## Blender checklist before export

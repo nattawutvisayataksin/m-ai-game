@@ -72,6 +72,10 @@ func _ready() -> void:
 	saboteur.take_damage(saboteur.max_hp * 2.0, TowerData.DamageType.TRUE)
 	await get_tree().process_frame
 	print("SMOKE saboteur_dead=%s" % str(not is_instance_valid(saboteur) or saboteur.is_dead))
+	root.queue_free()
+	await get_tree().process_frame
+	AudioDirector.stop_all_audio()
+	await get_tree().process_frame
 	print("SMOKE done")
 	get_tree().quit()
 

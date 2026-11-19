@@ -124,13 +124,13 @@ bounds = Rect2(-30, -30, 60, 60)
 position = Vector3(0, 0.9, 22)
 
 [node name="BuildSpot1" parent="." instance=ExtResource("7_spot")]
-position = Vector3(-7, 0, -9)
+position = Vector3(-4.5, 0, -9)
 
 [node name="BuildSpot2" parent="." instance=ExtResource("7_spot")]
-position = Vector3(7, 0, 5)
+position = Vector3(4.5, 0, 5)
 
 [node name="BuildSpot3" parent="." instance=ExtResource("7_spot")]
-position = Vector3(-7, 0, 14)
+position = Vector3(-4.5, 0, 14)
 
 [node name="GameHUD" parent="." instance=ExtResource("4_hud")]
 wave_spawner_path = NodePath("../WaveSpawner")

@@ -125,6 +125,9 @@ func _ready() -> void:
 
 	SaveManager.data = original
 	SaveManager.save_game()
+	await get_tree().process_frame
 	print("SMOKE restored shards=%d" % SaveManager.get_shards())
+	AudioDirector.stop_all_audio()
+	await get_tree().process_frame
 	print("SMOKE done")
 	get_tree().quit()

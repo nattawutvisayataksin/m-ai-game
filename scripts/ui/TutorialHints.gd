@@ -21,7 +21,7 @@ func _ready() -> void:
 	EventBus.enemy_reached_end.connect(_on_enemy_reached_end)
 	EventBus.hero_level_changed.connect(_on_hero_level_changed)
 	EventBus.level_won.connect(_on_level_won)
-	show_hint("Welcome to Crystal Bastion!\nClick a glowing build spot to place your first tower.", 7.0)
+	show_hint("START HERE  •  Click a cyan ring, then choose a tower.\nPress Next Wave when ready. Meteor auto-aims (1); reinforcements (2).\nCamera: WASD / screen edge to pan, Q/E to rotate, wheel to zoom.", 16.0)
 
 func show_hint(text: String, hold: float = 4.5) -> void:
 	if not is_inside_tree():
@@ -56,7 +56,7 @@ func _on_hero_level_changed(level: int, _xp: int, _required: int) -> void:
 	if _hero_hint or level < 2:
 		return
 	_hero_hint = true
-	show_hint("Your hero leveled up!\nPress 1 for Meteor Strike, 2 for Reinforcements.", 6.0)
+	show_hint("Your hero leveled up!\nMeteor auto-aims at the largest enemy group (1). Reinforcements arrive with 2.", 6.0)
 
 func _on_level_won(_stars: int) -> void:
 	SaveManager.set_setting(&"tutorial_done", true)

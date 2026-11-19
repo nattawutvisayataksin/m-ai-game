@@ -40,6 +40,9 @@ func _ready() -> void:
 
 	SaveManager.data = original
 	SaveManager.save_game()
+	await get_tree().process_frame
 	print("SMOKE restored tutorial_done=%s" % str(SaveManager.get_setting(&"tutorial_done", false)))
+	AudioDirector.stop_all_audio()
+	await get_tree().process_frame
 	print("SMOKE done")
 	get_tree().quit()

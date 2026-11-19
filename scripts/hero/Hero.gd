@@ -101,6 +101,28 @@ func use_meteor(target_position: Vector3) -> bool:
 	_meteor_strike()
 	return true
 
+func best_meteor_target() -> Vector3:
+	var enemies: Array[Enemy] = []
+	for node in get_tree().get_nodes_in_group(&"enemies"):
+		var enemy := node as Enemy
+		if enemy != null and not enemy.is_dead:
+			enemies.append(enemy)
+	if enemies.is_empty():
+		return global_position
+	var best_count: int = 0
+	var best_center: Vector3 = enemies[0].global_position
+	for candidate: Enemy in enemies:
+		var center: Vector3 = Vector3.ZERO
+		var count: int = 0
+		for enemy: Enemy in enemies:
+			if candidate.global_position.distance_squared_to(enemy.global_position) <= meteor_radius * meteor_radius:
+				center += enemy.global_position
+				count += 1
+		if count > best_count:
+			best_count = count
+			best_center = center / float(count)
+	return best_center
+
 func use_reinforcements() -> bool:
 	if is_dead or reinforcements_remaining > 0.0 or soldier_scene == null:
 		return false

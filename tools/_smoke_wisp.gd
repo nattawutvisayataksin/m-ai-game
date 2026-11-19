@@ -42,6 +42,10 @@ func _ready() -> void:
 	wisp.take_damage(wisp.max_hp * 2.0, TowerData.DamageType.TRUE)
 	await get_tree().create_timer(1.2).timeout
 	print("SMOKE wisp_dead=%s" % str(not is_instance_valid(wisp) or wisp.is_dead))
+	level.queue_free()
+	await get_tree().process_frame
+	AudioDirector.stop_all_audio()
+	await get_tree().process_frame
 	print("SMOKE done")
 	get_tree().quit()
 

@@ -1,5 +1,5 @@
 extends Node
-## Generates lightweight placeholder SFX and routes gameplay events to the audio pool.
+## Routes imported gameplay effects and the procedural music bed to pooled players.
 
 const SAMPLE_RATE: int = 22050
 const MUSIC_BUS: StringName = &"Music"
@@ -29,19 +29,19 @@ var _ui: AudioStreamPlayer
 var _last_hit_ms: int = -1000
 
 func _ready() -> void:
-	_shot = _tone(980.0, 0.07, 0.22, 1)
-	_hit = _tone(220.0, 0.05, 0.2, 0, 140.0)
-	_coin = _notes(PackedFloat32Array([1318.5, 1760.0]), 0.055, 0.2)
-	_build = _notes(PackedFloat32Array([523.25, 659.25, 783.99]), 0.06, 0.22)
-	_wave = _notes(PackedFloat32Array([392.0, 523.25]), 0.11, 0.18)
-	_win = _notes(PackedFloat32Array([523.25, 659.25, 783.99, 1046.5]), 0.13, 0.22)
-	_lose = _notes(PackedFloat32Array([392.0, 329.63, 261.63]), 0.16, 0.22)
-	_meteor = _tone(80.0, 0.55, 0.45, 0, 36.0)
-	_rally = _notes(PackedFloat32Array([440.0, 554.37, 659.25]), 0.08, 0.25)
-	_heal = _notes(PackedFloat32Array([783.99, 1046.5]), 0.08, 0.14)
-	_blessing = _notes(PackedFloat32Array([659.25, 987.77, 1318.5]), 0.09, 0.2)
-	_sabotage = _tone(520.0, 0.3, 0.28, 1, 80.0)
-	_fanfare = _notes(PackedFloat32Array([523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98]), 0.15, 0.24)
+	_shot = load("res://assets/audio/tower_shot.wav") as AudioStream
+	_hit = load("res://assets/audio/impact.wav") as AudioStream
+	_coin = load("res://assets/audio/coin_pickup.wav") as AudioStream
+	_build = load("res://assets/audio/tower_build.wav") as AudioStream
+	_wave = load("res://assets/audio/wave_start.wav") as AudioStream
+	_win = load("res://assets/audio/victory.wav") as AudioStream
+	_lose = load("res://assets/audio/defeat.wav") as AudioStream
+	_meteor = load("res://assets/audio/meteor.wav") as AudioStream
+	_rally = load("res://assets/audio/reinforcements.wav") as AudioStream
+	_heal = load("res://assets/audio/heal.wav") as AudioStream
+	_blessing = load("res://assets/audio/blessing.wav") as AudioStream
+	_sabotage = load("res://assets/audio/sabotage.wav") as AudioStream
+	_fanfare = load("res://assets/audio/campaign_fanfare.wav") as AudioStream
 	_music = _pad_loop()
 	_ensure_music_bus()
 	_music_player = AudioStreamPlayer.new()
@@ -68,6 +68,32 @@ func _ready() -> void:
 	EventBus.upgrade_purchased.connect(_on_upgrade_purchased)
 	EventBus.tower_disabled.connect(_on_tower_disabled)
 	EventBus.campaign_completed.connect(_on_campaign_completed)
+
+func _exit_tree() -> void:
+	stop_all_audio()
+
+func stop_all_audio() -> void:
+	if is_instance_valid(_music_player):
+		_music_player.stop()
+		_music_player.stream = null
+	if is_instance_valid(_ui):
+		_ui.stop()
+		_ui.stream = null
+	AudioPool.stop_all()
+	_shot = null
+	_hit = null
+	_coin = null
+	_build = null
+	_wave = null
+	_win = null
+	_lose = null
+	_meteor = null
+	_rally = null
+	_heal = null
+	_blessing = null
+	_sabotage = null
+	_fanfare = null
+	_music = null
 
 func _on_damage(world_position: Vector3, _amount: float) -> void:
 	var now: int = Time.get_ticks_msec()
@@ -132,31 +158,6 @@ func set_music_volume(value: float) -> void:
 	var index: int = _ensure_music_bus()
 	AudioServer.set_bus_mute(index, value <= 0.001)
 	AudioServer.set_bus_volume_db(index, linear_to_db(maxf(value, 0.001)))
-
-func _tone(start_freq: float, duration: float, volume: float, waveform: int = 0, end_freq: float = -1.0) -> AudioStreamWAV:
-	return _to_stream(_tone_samples(start_freq, duration, volume, waveform, end_freq))
-
-func _tone_samples(start_freq: float, duration: float, volume: float, waveform: int = 0, end_freq: float = -1.0) -> PackedFloat32Array:
-	var count: int = int(float(SAMPLE_RATE) * duration)
-	var samples := PackedFloat32Array()
-	samples.resize(count)
-	var phase: float = 0.0
-	var target_freq: float = end_freq if end_freq > 0.0 else start_freq
-	for index: int in count:
-		var t: float = float(index) / float(count)
-		var frequency: float = lerpf(start_freq, target_freq, t)
-		phase += TAU * frequency / float(SAMPLE_RATE)
-		var value: float = sin(phase)
-		if waveform == 1:
-			value = 1.0 if value >= 0.0 else -1.0
-		samples[index] = value * pow(1.0 - t, 1.6) * volume
-	return samples
-
-func _notes(frequencies: PackedFloat32Array, step: float, volume: float) -> AudioStreamWAV:
-	var samples := PackedFloat32Array()
-	for frequency: float in frequencies:
-		samples.append_array(_tone_samples(frequency, step, volume))
-	return _to_stream(samples)
 
 func _pad_loop() -> AudioStreamWAV:
 	var segment: float = 2.5

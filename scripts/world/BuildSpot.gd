@@ -10,7 +10,7 @@ var tower: Tower = null
 
 func _ready() -> void:
 	input_ray_pickable = true
-	ring.visible = false
+	ring.visible = tower == null
 	mouse_entered.connect(_on_hover.bind(true))
 	mouse_exited.connect(_on_hover.bind(false))
 
@@ -48,6 +48,7 @@ func sell() -> void:
 	Economy.add(int(tower.total_spent * tower.data.sell_ratio))
 	tower.queue_free()
 	tower = null
+	ring.visible = true
 
 func _place(tower_data: TowerData, spent: int, mode: Tower.TargetMode) -> void:
 	if tower_data.tower_scene == null:
@@ -58,6 +59,7 @@ func _place(tower_data: TowerData, spent: int, mode: Tower.TargetMode) -> void:
 	placed.target_mode = mode
 	add_child(placed)
 	tower = placed
+	ring.visible = false
 	EventBus.tower_built.emit(placed.global_position)
 	placed.scale = Vector3.ONE * 0.6
 	var tw := placed.create_tween()

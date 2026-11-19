@@ -44,6 +44,11 @@ func play_at(stream: AudioStream, world_position: Vector3, volume_db: float = 0.
 	player.volume_db = volume_db
 	player.play()
 
+func stop_all() -> void:
+	for player: AudioStreamPlayer3D in _players:
+		player.stop()
+		player.stream = null
+
 func _find_available() -> AudioStreamPlayer3D:
 	for player: AudioStreamPlayer3D in _players:
 		if not player.playing:

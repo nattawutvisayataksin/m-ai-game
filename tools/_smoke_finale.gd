@@ -31,6 +31,9 @@ func _ready() -> void:
 	SaveManager.current_level_id = original_level_id
 	SaveManager.save_game()
 	hud.queue_free()
+	await get_tree().process_frame
 	print("SMOKE restored campaign_bonus_claimed=%s" % str(SaveManager.get_setting(&"campaign_bonus_claimed", false)))
+	AudioDirector.stop_all_audio()
+	await get_tree().process_frame
 	print("SMOKE done")
 	get_tree().quit()

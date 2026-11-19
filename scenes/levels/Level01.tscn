@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/Level01.gd" id="1_level"]
 [ext_resource type="Resource" path="res://data/levels/Level01.tres" id="2_data"]
@@ -17,6 +17,7 @@
 [ext_resource type="Resource" path="res://data/towers/Mage.tres" id="15_mage"]
 [ext_resource type="Environment" path="res://assets/environment/stylized_environment.tres" id="16_env"]
 [ext_resource type="PackedScene" path="res://scenes/ui/TutorialHints.tscn" id="17_hints"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/stylized_pine.glb" id="18_pine"]
 
 [sub_resource type="Environment" id="Environment_level"]
 background_mode = 1
@@ -103,3 +104,65 @@ hero_path = NodePath("../Hero")
 
 [node name="FloatingDamageNumbers" type="Node3D" parent="."]
 script = ExtResource("12_floating")
+
+[node name="Scenery" type="Node3D" parent="."]
+
+[node name="Pine01" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(-22, 0, -18)
+rotation_degrees = Vector3(0, 18, 0)
+scale = Vector3(0.82, 0.82, 0.82)
+
+[node name="Pine02" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(-22, 0, -2)
+rotation_degrees = Vector3(0, 74, 0)
+scale = Vector3(0.7, 0.7, 0.7)
+
+[node name="Pine03" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(-22, 0, 15)
+rotation_degrees = Vector3(0, 132, 0)
+scale = Vector3(0.9, 0.9, 0.9)
+
+[node name="Pine04" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(22, 0, -18)
+rotation_degrees = Vector3(0, 36, 0)
+scale = Vector3(0.76, 0.76, 0.76)
+
+[node name="Pine05" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(22, 0, -2)
+rotation_degrees = Vector3(0, 96, 0)
+scale = Vector3(0.88, 0.88, 0.88)
+
+[node name="Pine06" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(22, 0, 15)
+rotation_degrees = Vector3(0, 154, 0)
+scale = Vector3(0.72, 0.72, 0.72)
+
+[node name="Pine07" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(-15, 0, -21)
+rotation_degrees = Vector3(0, 42, 0)
+scale = Vector3(0.67, 0.67, 0.67)
+
+[node name="Pine08" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(0, 0, -22)
+rotation_degrees = Vector3(0, 112, 0)
+scale = Vector3(0.84, 0.84, 0.84)
+
+[node name="Pine09" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(15, 0, -21)
+rotation_degrees = Vector3(0, 178, 0)
+scale = Vector3(0.74, 0.74, 0.74)
+
+[node name="Pine10" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(-15, 0, 21)
+rotation_degrees = Vector3(0, 64, 0)
+scale = Vector3(0.88, 0.88, 0.88)
+
+[node name="Pine11" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(0, 0, 22)
+rotation_degrees = Vector3(0, 128, 0)
+scale = Vector3(0.7, 0.7, 0.7)
+
+[node name="Pine12" parent="Scenery" instance=ExtResource("18_pine")]
+position = Vector3(15, 0, 21)
+rotation_degrees = Vector3(0, 196, 0)
+scale = Vector3(0.8, 0.8, 0.8)

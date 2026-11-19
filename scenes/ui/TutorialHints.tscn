@@ -8,10 +8,14 @@ process_mode = 3
 script = ExtResource("1_hints")
 
 [node name="Panel" type="PanelContainer" parent="."]
-offset_left = 330.0
-offset_top = 512.0
-offset_right = 950.0
-offset_bottom = 604.0
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -350.0
+offset_top = 108.0
+offset_right = 350.0
+offset_bottom = 220.0
+grow_horizontal = 2
 mouse_filter = 2
 
 [node name="Margin" type="MarginContainer" parent="Panel"]

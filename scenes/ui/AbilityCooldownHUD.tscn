@@ -6,15 +6,22 @@
 script = ExtResource("1_hud")
 
 [node name="Panel" type="HBoxContainer" parent="."]
-offset_left = 24.0
-offset_top = 620.0
-offset_right = 420.0
-offset_bottom = 700.0
+anchors_preset = 12
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -408.0
+offset_top = -92.0
+offset_right = -24.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
 theme_override_constants/separation = 12
 
 [node name="Meteor" type="Button" parent="Panel"]
 custom_minimum_size = Vector2(170, 70)
-text = "Meteor Strike"
+text = "Meteor (1)\nAuto-aim"
 
 [node name="Cooldown" type="ProgressBar" parent="Panel/Meteor"]
 layout_mode = 0
@@ -28,7 +35,7 @@ value = 0.0
 
 [node name="Reinforcements" type="Button" parent="Panel"]
 custom_minimum_size = Vector2(170, 70)
-text = "Reinforcements"
+text = "Reinforcements (2)"
 
 [node name="Cooldown" type="ProgressBar" parent="Panel/Reinforcements"]
 layout_mode = 0

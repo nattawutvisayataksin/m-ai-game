@@ -26,16 +26,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _hero == null:
 		return
 	if event.is_action_pressed(&"ability_meteor"):
-		var camera := get_viewport().get_camera_3d()
-		if camera:
-			var mouse_pos := get_viewport().get_mouse_position()
-			_hero.use_meteor(_screen_to_world(mouse_pos, camera))
+		_hero.use_meteor(_hero.best_meteor_target())
 	elif event.is_action_pressed(&"ability_reinforcements"):
 		_hero.use_reinforcements()
 
 func _meteor_pressed() -> void:
 	if _hero:
-		_hero.use_meteor(_hero.global_position)
+		_hero.use_meteor(_hero.best_meteor_target())
 
 func _reinforcements_pressed() -> void:
 	if _hero:
@@ -49,10 +46,3 @@ func _on_skill_cooldown_changed(skill_index: int, remaining: float, duration: fl
 	else:
 		reinforcements_fill.value = ratio * 100.0
 		reinforcements_button.disabled = remaining > 0.0
-
-func _screen_to_world(screen_position: Vector2, camera: Camera3D) -> Vector3:
-	var origin := camera.project_ray_origin(screen_position)
-	var end := origin + camera.project_ray_normal(screen_position) * 1000.0
-	var query := PhysicsRayQueryParameters3D.create(origin, end)
-	var result := camera.get_world_3d().direct_space_state.intersect_ray(query)
-	return result["position"] as Vector3 if result.has("position") else _hero.global_position
