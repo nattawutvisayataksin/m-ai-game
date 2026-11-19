@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/classes/EnemyData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Grunt.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"grunt"
+display_name = "Grunt"
+max_hp = 40.0
+speed = 2.0
+armor = 0.0
+magic_resist = 0.0
+gold_reward = 6
+lives_damage = 1
+is_flying = false
+attack_damage = 8.0
+attack_interval = 1.2
+attack_range = 1.6
+scene = ExtResource("2_scene")

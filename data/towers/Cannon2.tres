@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://data/classes/TowerData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/towers/CannonTower.tscn" id="2_tower"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/Cannonball.tscn" id="3_projectile"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"cannon_2"
+display_name = "Cannon Tower II"
+cost = 220
+damage_min = 38.0
+damage_max = 50.0
+damage_type = 0
+attack_range = 8.0
+fire_rate = 0.65
+aoe_radius = 2.6
+can_hit_flying = false
+projectile_scene = ExtResource("3_projectile")
+tower_scene = ExtResource("2_tower")
+sell_ratio = 0.7

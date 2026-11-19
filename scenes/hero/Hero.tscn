@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/hero/Hero.gd" id="1_hero"]
+[ext_resource type="PackedScene" path="res://scenes/towers/Soldier.tscn" id="2_soldier"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/hero_basic.glb" id="3_hero_model"]
+
+[sub_resource type="CapsuleShape3D" id="Shape_body"]
+radius = 0.45
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="Shape_detection"]
+radius = 5.0
+
+[node name="Hero" type="CharacterBody3D"]
+script = ExtResource("1_hero")
+soldier_scene = ExtResource("2_soldier")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_body")
+
+[node name="Model" parent="." instance=ExtResource("3_hero_model")]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.5
+target_desired_distance = 0.8
+avoidance_enabled = true
+
+[node name="AttackArea" type="Area3D" parent="."]
+monitoring = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
+shape = SubResource("Shape_detection")

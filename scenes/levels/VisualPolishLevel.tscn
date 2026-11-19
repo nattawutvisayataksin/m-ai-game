@@ -1,0 +1,137 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/VisualPolishLevel.gd" id="1_level"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial_warm"]
+sky_top_color = Color(0.08, 0.12, 0.28, 1)
+sky_horizon_color = Color(1, 0.48, 0.25, 1)
+ground_bottom_color = Color(0.04, 0.05, 0.10, 1)
+ground_horizon_color = Color(0.70, 0.28, 0.18, 1)
+sun_angle_max = 25.0
+sun_curve = 0.12
+
+[sub_resource type="Sky" id="Sky_warm"]
+sky_material = SubResource("SkyMaterial_warm")
+
+[sub_resource type="Environment" id="Environment_polish"]
+background_mode = 2
+sky = SubResource("Sky_warm")
+tonemap_mode = 2
+tonemap_exposure = 1.0
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.1
+glow_hdr_threshold = 1.0
+ssao_enabled = true
+ssao_radius = 1.5
+ssil_enabled = true
+fog_enabled = true
+fog_light_color = Color(1, 0.72, 0.5, 1)
+fog_density = 0.01
+adjustment_enabled = true
+adjustment_saturation = 1.15
+adjustment_contrast = 1.05
+
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(50, 0.2, 50)
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial"]
+albedo_color = Color(0.16, 0.20, 0.24, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="GroundShape"]
+size = Vector3(50, 0.2, 50)
+
+[sub_resource type="ParticleProcessMaterial" id="ArrowTrailProcess"]
+emission_shape = 1
+emission_sphere_radius = 0.05
+direction = Vector3(0, 0, -1)
+initial_velocity_min = 0.4
+initial_velocity_max = 1.0
+scale_min = 0.04
+scale_max = 0.08
+color = Color(0.3, 0.8, 1, 0.8)
+
+[sub_resource type="ParticleProcessMaterial" id="MagicSparksProcess"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, -2, 0)
+scale_min = 0.04
+scale_max = 0.12
+color = Color(0.2, 0.7, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="CoinProcess"]
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, -6, 0)
+scale_min = 0.08
+scale_max = 0.14
+color = Color(1, 0.68, 0.12, 1)
+
+[node name="VisualPolishLevel" type="Node3D"]
+script = ExtResource("1_level")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_polish")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-50, -35, 0)
+light_color = Color(1, 0.886, 0.722, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+directional_shadow_mode = 1
+shadow_blur = 1.5
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+quality = 2
+bake_quality = 1
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMesh")
+material_override = SubResource("GroundMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("GroundShape")
+
+[node name="ArrowTrail" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 24
+lifetime = 0.35
+process_material = SubResource("ArrowTrailProcess")
+
+[node name="MagicSparks" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.8
+process_material = SubResource("MagicSparksProcess")
+
+[node name="CoinPickup" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 12
+lifetime = 0.8
+process_material = SubResource("CoinProcess")
+
+[node name="CannonExplosion" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 48
+lifetime = 0.8
+process_material = SubResource("MagicSparksProcess")
+
+[node name="FrostBurst" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.7
+process_material = SubResource("MagicSparksProcess")
+
+[node name="TowerBuildDust" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 28
+lifetime = 0.65
+process_material = SubResource("CoinProcess")

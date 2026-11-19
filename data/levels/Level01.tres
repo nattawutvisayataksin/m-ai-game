@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://data/classes/LevelData.gd" id="1_level"]
+[ext_resource type="Resource" path="res://data/enemies/Grunt.tres" id="2_enemy"]
+[ext_resource type="Script" path="res://data/classes/SpawnGroup.gd" id="3_group"]
+[ext_resource type="Script" path="res://data/classes/WaveData.gd" id="4_wave"]
+[ext_resource type="Resource" path="res://data/enemies/Runner.tres" id="5_runner"]
+[ext_resource type="Resource" path="res://data/enemies/Brute.tres" id="6_brute"]
+
+[sub_resource type="Resource" id="SpawnGroup_grunts"]
+script = ExtResource("3_group")
+enemy = ExtResource("2_enemy")
+count = 8
+interval = 1.0
+delay = 0.0
+path_index = 0
+
+[sub_resource type="Resource" id="WaveData_first"]
+script = ExtResource("4_wave")
+groups = Array[ExtResource("3_group")]([SubResource("SpawnGroup_grunts")])
+
+[sub_resource type="Resource" id="SpawnGroup_grunts2"]
+script = ExtResource("3_group")
+enemy = ExtResource("2_enemy")
+count = 10
+interval = 0.9
+delay = 0.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_runners"]
+script = ExtResource("3_group")
+enemy = ExtResource("5_runner")
+count = 4
+interval = 0.7
+delay = 3.0
+path_index = 0
+
+[sub_resource type="Resource" id="WaveData_second"]
+script = ExtResource("4_wave")
+groups = Array[ExtResource("3_group")]([SubResource("SpawnGroup_grunts2"), SubResource("SpawnGroup_runners")])
+
+[sub_resource type="Resource" id="SpawnGroup_grunts3"]
+script = ExtResource("3_group")
+enemy = ExtResource("2_enemy")
+count = 10
+interval = 0.8
+delay = 0.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_runners2"]
+script = ExtResource("3_group")
+enemy = ExtResource("5_runner")
+count = 6
+interval = 0.5
+delay = 1.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_brutes"]
+script = ExtResource("3_group")
+enemy = ExtResource("6_brute")
+count = 2
+interval = 3.0
+delay = 2.0
+path_index = 0
+
+[sub_resource type="Resource" id="WaveData_third"]
+script = ExtResource("4_wave")
+groups = Array[ExtResource("3_group")]([SubResource("SpawnGroup_grunts3"), SubResource("SpawnGroup_runners2"), SubResource("SpawnGroup_brutes")])
+
+[resource]
+script = ExtResource("1_level")
+id = &"level_01"
+display_name = "The Meadow"
+start_gold = 500
+start_lives = 20
+enemy_hp_multiplier = 1.0
+waves = Array[ExtResource("4_wave")]([SubResource("WaveData_first"), SubResource("WaveData_second"), SubResource("WaveData_third")])

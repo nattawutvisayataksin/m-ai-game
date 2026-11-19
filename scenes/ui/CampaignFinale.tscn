@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/CampaignFinale.gd" id="1_finale"]
+
+[node name="CampaignFinale" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_finale")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.02, 0.05, 0.78)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 86.0
+offset_right = 1060.0
+offset_bottom = 634.0
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 30
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.42, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.04, 0.02, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 42
+text = "THE BASTION STANDS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Campaign Complete"
+horizontal_alignment = 1
+
+[node name="Divider" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Body" type="Label" parent="Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.93, 1, 1)
+theme_override_constants/line_spacing = 6
+theme_override_font_sizes/font_size = 18
+text = "The Crystal Heart is safe. With the Ancient Golem shattered at the Crossroads, the lanes fall silent and the Bastion's light burns steady once more.
+
+Your hero and their towers held the line through meadow, pass and gate. Somewhere beyond the mountains new crystals still hum - but tonight, the valley sleeps in peace."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Stats" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Total stars: 0 / 12"
+horizontal_alignment = 1
+
+[node name="Bonus" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = ""
+horizontal_alignment = 1
+
+[node name="Continue" type="Button" parent="Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "Return to the World Map"

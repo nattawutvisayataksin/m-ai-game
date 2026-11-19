@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/AbilityCooldownHUD.gd" id="1_hud"]
+
+[node name="AbilityCooldownHUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Panel" type="HBoxContainer" parent="."]
+offset_left = 24.0
+offset_top = 620.0
+offset_right = 420.0
+offset_bottom = 700.0
+theme_override_constants/separation = 12
+
+[node name="Meteor" type="Button" parent="Panel"]
+custom_minimum_size = Vector2(170, 70)
+text = "Meteor Strike"
+
+[node name="Cooldown" type="ProgressBar" parent="Panel/Meteor"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 58.0
+offset_right = 164.0
+offset_bottom = 66.0
+mouse_filter = 2
+show_percentage = false
+value = 0.0
+
+[node name="Reinforcements" type="Button" parent="Panel"]
+custom_minimum_size = Vector2(170, 70)
+text = "Reinforcements"
+
+[node name="Cooldown" type="ProgressBar" parent="Panel/Reinforcements"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 58.0
+offset_right = 164.0
+offset_bottom = 66.0
+mouse_filter = 2
+show_percentage = false
+value = 0.0

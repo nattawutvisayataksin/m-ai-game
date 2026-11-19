@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/vfx/OneShotParticles.gd" id="1_fx"]
+
+[sub_resource type="SphereMesh" id="Mesh_build"]
+radius = 0.06
+height = 0.12
+radial_segments = 6
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="Material_build"]
+albedo_color = Color(0.3, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0.1, 0.7, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="ParticleProcessMaterial" id="Particles_build"]
+direction = Vector3(0, 1, 0)
+spread = 45.0
+initial_velocity_min = 1.5
+initial_velocity_max = 3.5
+gravity = Vector3(0, -3, 0)
+scale_min = 0.4
+scale_max = 1.0
+color = Color(0.35, 0.9, 1, 1)
+
+[node name="BuildBurst" type="GPUParticles3D"]
+emitting = false
+amount = 16
+lifetime = 0.55
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource("Particles_build")
+draw_pass_1 = SubResource("Mesh_build")
+script = ExtResource("1_fx")

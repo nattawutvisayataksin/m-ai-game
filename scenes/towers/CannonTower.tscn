@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/towers/Tower.gd" id="1_tower"]
+
+[sub_resource type="CylinderMesh" id="Mesh_base"]
+top_radius = 1.0
+bottom_radius = 1.2
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_stone"]
+albedo_color = Color(0.29, 0.31, 0.35, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="Mesh_body"]
+size = Vector3(0.8, 0.5, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="Mat_iron"]
+albedo_color = Color(0.2, 0.19, 0.23, 1)
+metallic = 0.6
+roughness = 0.45
+
+[sub_resource type="CylinderMesh" id="Mesh_barrel"]
+top_radius = 0.18
+bottom_radius = 0.24
+height = 1.05
+radial_segments = 12
+
+[sub_resource type="SphereShape3D" id="Shape_detection"]
+radius = 7.0
+
+[sub_resource type="CylinderShape3D" id="Shape_body"]
+radius = 1.2
+height = 1.0
+
+[node name="CannonTower" type="Node3D"]
+script = ExtResource("1_tower")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.5, 0)
+mesh = SubResource("Mesh_base")
+material_override = SubResource("Mat_stone")
+
+[node name="Turret" type="Node3D" parent="."]
+position = Vector3(0, 1.0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Turret"]
+position = Vector3(0, 0.3, 0.1)
+mesh = SubResource("Mesh_body")
+material_override = SubResource("Mat_iron")
+
+[node name="Barrel" type="MeshInstance3D" parent="Turret"]
+position = Vector3(0, 0.48, 0.85)
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("Mesh_barrel")
+material_override = SubResource("Mat_iron")
+
+[node name="Muzzle" type="Marker3D" parent="Turret"]
+position = Vector3(0, 0.48, 1.35)
+
+[node name="DetectionArea" type="Area3D" parent="."]
+monitoring = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("Shape_detection")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_body")

@@ -1,0 +1,103 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://data/classes/LevelData.gd" id="1_level"]
+[ext_resource type="Resource" path="res://data/enemies/Grunt.tres" id="2_enemy"]
+[ext_resource type="Script" path="res://data/classes/SpawnGroup.gd" id="3_group"]
+[ext_resource type="Script" path="res://data/classes/WaveData.gd" id="4_wave"]
+[ext_resource type="Resource" path="res://data/enemies/Runner.tres" id="5_runner"]
+[ext_resource type="Resource" path="res://data/enemies/Brute.tres" id="6_brute"]
+[ext_resource type="Resource" path="res://data/enemies/Gargoyle.tres" id="7_gargoyle"]
+[ext_resource type="Resource" path="res://data/enemies/CrystalWisp.tres" id="8_wisp"]
+
+[sub_resource type="Resource" id="SpawnGroup_grunts"]
+script = ExtResource("3_group")
+enemy = ExtResource("2_enemy")
+count = 10
+interval = 0.9
+delay = 0.0
+path_index = 0
+
+[sub_resource type="Resource" id="WaveData_first"]
+script = ExtResource("4_wave")
+groups = Array[ExtResource("3_group")]([SubResource("SpawnGroup_grunts")])
+
+[sub_resource type="Resource" id="SpawnGroup_grunts2"]
+script = ExtResource("3_group")
+enemy = ExtResource("2_enemy")
+count = 12
+interval = 0.8
+delay = 0.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_runners"]
+script = ExtResource("3_group")
+enemy = ExtResource("5_runner")
+count = 6
+interval = 0.6
+delay = 2.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_flyers"]
+script = ExtResource("3_group")
+enemy = ExtResource("7_gargoyle")
+count = 4
+interval = 1.2
+delay = 4.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_wisps"]
+script = ExtResource("3_group")
+enemy = ExtResource("8_wisp")
+count = 2
+interval = 3.0
+delay = 3.0
+path_index = 0
+
+[sub_resource type="Resource" id="WaveData_second"]
+script = ExtResource("4_wave")
+groups = Array[ExtResource("3_group")]([SubResource("SpawnGroup_grunts2"), SubResource("SpawnGroup_runners"), SubResource("SpawnGroup_flyers"), SubResource("SpawnGroup_wisps")])
+
+[sub_resource type="Resource" id="SpawnGroup_grunts3"]
+script = ExtResource("3_group")
+enemy = ExtResource("2_enemy")
+count = 14
+interval = 0.7
+delay = 0.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_flyers2"]
+script = ExtResource("3_group")
+enemy = ExtResource("7_gargoyle")
+count = 6
+interval = 1.0
+delay = 2.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_brutes"]
+script = ExtResource("3_group")
+enemy = ExtResource("6_brute")
+count = 3
+interval = 2.5
+delay = 3.0
+path_index = 0
+
+[sub_resource type="Resource" id="SpawnGroup_wisps2"]
+script = ExtResource("3_group")
+enemy = ExtResource("8_wisp")
+count = 2
+interval = 2.5
+delay = 5.0
+path_index = 0
+
+[sub_resource type="Resource" id="WaveData_third"]
+script = ExtResource("4_wave")
+groups = Array[ExtResource("3_group")]([SubResource("SpawnGroup_grunts3"), SubResource("SpawnGroup_flyers2"), SubResource("SpawnGroup_brutes"), SubResource("SpawnGroup_wisps2")])
+
+[resource]
+script = ExtResource("1_level")
+id = &"level_02"
+display_name = "Crystal Pass"
+start_gold = 520
+start_lives = 20
+enemy_hp_multiplier = 1.15
+waves = Array[ExtResource("4_wave")]([SubResource("WaveData_first"), SubResource("WaveData_second"), SubResource("WaveData_third")])

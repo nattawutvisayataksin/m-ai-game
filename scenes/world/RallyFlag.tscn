@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_pole"]
+albedo_color = Color(0.4, 0.25, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_pole"]
+material = SubResource("Mat_pole")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloth"]
+albedo_color = Color(0.15, 0.5, 0.9, 1)
+cull_mode = 0
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="Mesh_cloth"]
+material = SubResource("Mat_cloth")
+size = Vector3(0.5, 0.35, 0.02)
+
+[sub_resource type="GDScript" id="GDScript_flag"]
+script/source = "extends Node3D
+
+func _ready() -> void:
+	scale = Vector3.ZERO
+	var tw := create_tween()
+	tw.tween_property(self, \"scale\", Vector3.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+"
+
+[node name="RallyFlag" type="Node3D"]
+script = SubResource("GDScript_flag")
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.8, 0)
+mesh = SubResource("Mesh_pole")
+
+[node name="Cloth" type="MeshInstance3D" parent="."]
+position = Vector3(0.26, 1.35, 0)
+mesh = SubResource("Mesh_cloth")

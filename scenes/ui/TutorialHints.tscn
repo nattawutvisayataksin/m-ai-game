@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/TutorialHints.gd" id="1_hints"]
+
+[node name="TutorialHints" type="CanvasLayer"]
+layer = 5
+process_mode = 3
+script = ExtResource("1_hints")
+
+[node name="Panel" type="PanelContainer" parent="."]
+offset_left = 330.0
+offset_top = 512.0
+offset_right = 950.0
+offset_bottom = 604.0
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="Panel/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.86, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 17
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

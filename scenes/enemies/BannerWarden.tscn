@@ -1,0 +1,98 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/WardenEnemy.gd" id="1_warden"]
+[ext_resource type="Script" path="res://scripts/ui/HealthBar.gd" id="2_health"]
+
+[sub_resource type="CapsuleShape3D" id="Shape_warden"]
+radius = 0.5
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_iron"]
+albedo_color = Color(0.26, 0.28, 0.34, 1)
+roughness = 0.55
+metallic = 0.35
+
+[sub_resource type="CylinderMesh" id="Mesh_body"]
+top_radius = 0.38
+bottom_radius = 0.5
+height = 1.5
+
+[sub_resource type="SphereMesh" id="Mesh_head"]
+radius = 0.26
+height = 0.52
+
+[sub_resource type="BoxMesh" id="Mesh_pauldron"]
+size = Vector3(0.42, 0.22, 0.42)
+
+[sub_resource type="CylinderMesh" id="Mesh_pole"]
+top_radius = 0.055
+bottom_radius = 0.055
+height = 3.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.3, 0.22, 0.14, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_banner"]
+size = Vector3(0.05, 0.95, 0.72)
+
+[sub_resource type="StandardMaterial3D" id="Mat_banner"]
+albedo_color = Color(0.95, 0.72, 0.25, 1)
+roughness = 0.4
+emission_enabled = true
+emission = Color(1.0, 0.62, 0.15, 1)
+emission_energy_multiplier = 1.6
+
+[node name="Enemy" type="PathFollow3D"]
+script = ExtResource("1_warden")
+aura_radius = 8.0
+aura_armor = 0.15
+aura_speed_multiplier = 1.2
+aura_tick = 0.5
+aura_duration = 0.8
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+monitorable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("Shape_warden")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Model"]
+position = Vector3(0, 0.95, 0)
+mesh = SubResource("Mesh_body")
+material_override = SubResource("Mat_iron")
+
+[node name="Head" type="MeshInstance3D" parent="Model"]
+position = Vector3(0, 1.95, 0)
+mesh = SubResource("Mesh_head")
+material_override = SubResource("Mat_iron")
+
+[node name="PauldronL" type="MeshInstance3D" parent="Model"]
+position = Vector3(0.42, 1.62, 0)
+mesh = SubResource("Mesh_pauldron")
+material_override = SubResource("Mat_iron")
+
+[node name="PauldronR" type="MeshInstance3D" parent="Model"]
+position = Vector3(-0.42, 1.62, 0)
+mesh = SubResource("Mesh_pauldron")
+material_override = SubResource("Mat_iron")
+
+[node name="Pole" type="MeshInstance3D" parent="Model"]
+position = Vector3(0.6, 1.75, 0)
+mesh = SubResource("Mesh_pole")
+material_override = SubResource("Mat_wood")
+
+[node name="Banner" type="MeshInstance3D" parent="Model"]
+position = Vector3(0.62, 2.55, 0.38)
+mesh = SubResource("Mesh_banner")
+material_override = SubResource("Mat_banner")
+
+[node name="HealthBar" type="Sprite3D" parent="."]
+position = Vector3(0, 2.95, 0)
+script = ExtResource("2_health")

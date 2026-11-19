@@ -1,0 +1,144 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/Level02.gd" id="1_level"]
+[ext_resource type="Resource" path="res://data/levels/Level02.tres" id="2_data"]
+[ext_resource type="Script" path="res://scripts/levels/WaveSpawner.gd" id="3_spawner"]
+[ext_resource type="PackedScene" path="res://scenes/ui/GameHUD.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/AbilityCooldownHUD.tscn" id="5_ability"]
+[ext_resource type="PackedScene" path="res://scenes/hero/Hero.tscn" id="6_hero"]
+[ext_resource type="PackedScene" path="res://scenes/world/BuildSpot.tscn" id="7_spot"]
+[ext_resource type="PackedScene" path="res://scenes/ui/RadialBuildMenu.tscn" id="8_menu"]
+[ext_resource type="Resource" path="res://data/towers/Archer.tres" id="9_archer"]
+[ext_resource type="PackedScene" path="res://scenes/camera/CameraRig.tscn" id="10_camera"]
+[ext_resource type="Script" path="res://data/classes/TowerData.gd" id="11_tower"]
+[ext_resource type="Script" path="res://scripts/ui/FloatingDamageNumbers.gd" id="12_floating"]
+[ext_resource type="Resource" path="res://data/towers/Barracks.tres" id="13_barracks"]
+[ext_resource type="Resource" path="res://data/towers/Cannon.tres" id="14_cannon"]
+[ext_resource type="Resource" path="res://data/towers/Mage.tres" id="15_mage"]
+[ext_resource type="Environment" path="res://assets/environment/stylized_environment.tres" id="16_env"]
+
+[sub_resource type="Environment" id="Environment_level"]
+background_mode = 1
+background_color = Color(0.06, 0.1, 0.18, 1)
+
+[sub_resource type="Curve3D" id="PathCurve"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -24, 0, -16, 0, 0, 0, 0, 0, 0, 0, 0, -16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 24, 0, 16),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_level"]
+vertices = PackedVector3Array(-29, 0, -29, 29, 0, -29, 29, 0, 29, -29, 0, 29)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(60, 0.2, 60)
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial"]
+albedo_color = Color(0.11, 0.16, 0.2, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="GroundShape"]
+size = Vector3(60, 0.2, 60)
+
+[sub_resource type="CylinderMesh" id="CrystalMesh"]
+top_radius = 0.0
+bottom_radius = 0.7
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="CrystalMaterial"]
+albedo_color = Color(0.35, 0.85, 0.8, 1)
+roughness = 0.25
+emission_enabled = true
+emission = Color(0.15, 0.7, 0.65, 1)
+emission_energy_multiplier = 0.8
+
+[node name="Level02" type="Node3D"]
+script = ExtResource("1_level")
+level_data = ExtResource("2_data")
+tower_options = Array[ExtResource("11_tower")]([ExtResource("9_archer"), ExtResource("13_barracks"), ExtResource("14_cannon"), ExtResource("15_mage")])
+camera_bounds = Rect2(-30, -30, 60, 60)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("16_env")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-50, -35, 0)
+light_color = Color(0.88, 0.94, 1, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+shadow_blur = 1.2
+
+[node name="Ground" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.1, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMesh")
+material_override = SubResource("GroundMaterial")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("GroundShape")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_level")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("PathCurve")
+
+[node name="Crystals" type="Node3D" parent="."]
+
+[node name="Crystal1" type="MeshInstance3D" parent="Crystals"]
+position = Vector3(-20, 1.5, 8)
+rotation_degrees = Vector3(0, 30, 8)
+mesh = SubResource("CrystalMesh")
+material_override = SubResource("CrystalMaterial")
+
+[node name="Crystal2" type="MeshInstance3D" parent="Crystals"]
+position = Vector3(18, 1.5, -6)
+rotation_degrees = Vector3(0, -20, -6)
+mesh = SubResource("CrystalMesh")
+material_override = SubResource("CrystalMaterial")
+
+[node name="Crystal3" type="MeshInstance3D" parent="Crystals"]
+position = Vector3(-16, 1.5, 24)
+rotation_degrees = Vector3(0, 55, 5)
+mesh = SubResource("CrystalMesh")
+material_override = SubResource("CrystalMaterial")
+
+[node name="Crystal4" type="MeshInstance3D" parent="Crystals"]
+position = Vector3(22, 1.5, 24)
+rotation_degrees = Vector3(0, -40, -7)
+mesh = SubResource("CrystalMesh")
+material_override = SubResource("CrystalMaterial")
+
+[node name="WaveSpawner" type="Node" parent="."]
+script = ExtResource("3_spawner")
+level_data = ExtResource("2_data")
+
+[node name="CameraRig" parent="." instance=ExtResource("10_camera")]
+bounds = Rect2(-30, -30, 60, 60)
+
+[node name="Hero" parent="." instance=ExtResource("6_hero")]
+position = Vector3(0, 0.9, 22)
+
+[node name="BuildSpot1" parent="." instance=ExtResource("7_spot")]
+position = Vector3(-7, 0, -9)
+
+[node name="BuildSpot2" parent="." instance=ExtResource("7_spot")]
+position = Vector3(7, 0, 5)
+
+[node name="BuildSpot3" parent="." instance=ExtResource("7_spot")]
+position = Vector3(-7, 0, 14)
+
+[node name="GameHUD" parent="." instance=ExtResource("4_hud")]
+wave_spawner_path = NodePath("../WaveSpawner")
+
+[node name="AbilityCooldownHUD" parent="." instance=ExtResource("5_ability")]
+hero_path = NodePath("../Hero")
+
+[node name="RadialBuildMenu" parent="." instance=ExtResource("8_menu")]
+
+[node name="FloatingDamageNumbers" type="Node3D" parent="."]
+script = ExtResource("12_floating")

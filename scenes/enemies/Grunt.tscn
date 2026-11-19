@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/Enemy.gd" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/enemy_basic.glb" id="2_model"]
+[ext_resource type="Script" path="res://scripts/ui/HealthBar.gd" id="3_health"]
+
+[sub_resource type="CapsuleShape3D" id="Shape_enemy"]
+radius = 0.5
+height = 1.8
+
+[node name="Enemy" type="PathFollow3D"]
+script = ExtResource("1_enemy")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+monitorable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("Shape_enemy")
+
+[node name="Model" parent="." instance=ExtResource("2_model")]
+
+[node name="HealthBar" type="Sprite3D" parent="."]
+position = Vector3(0, 2.2, 0)
+script = ExtResource("3_health")

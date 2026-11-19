@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/classes/EnemyData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Brute.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"brute"
+display_name = "Brute"
+max_hp = 150.0
+speed = 1.3
+armor = 0.25
+magic_resist = 0.1
+gold_reward = 18
+lives_damage = 2
+is_flying = false
+attack_damage = 18.0
+attack_interval = 1.6
+attack_range = 2.0
+scene = ExtResource("2_scene")

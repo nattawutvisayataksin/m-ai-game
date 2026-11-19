@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="GDScript" id="GDScript_warning"]
+script/source = "extends Node3D
+
+@export var duration: float = 1.5
+@export var radius: float = 4.0
+
+@onready var ring: MeshInstance3D = $Ring
+@onready var fill: MeshInstance3D = $Fill
+
+func _ready() -> void:
+	scale = Vector3.ZERO
+	var tw := create_tween()
+	tw.tween_property(self, \"scale\", Vector3.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(fill, \"scale\", Vector3.ONE, duration)
+	await get_tree().create_timer(duration, false).timeout
+	queue_free()
+"
+
+[sub_resource type="StandardMaterial3D" id="Mat_ring"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.35, 0.05, 0.9)
+
+[sub_resource type="TorusMesh" id="Mesh_ring"]
+material = SubResource("Mat_ring")
+inner_radius = 3.85
+outer_radius = 4.0
+rings = 36
+ring_segments = 4
+
+[sub_resource type="StandardMaterial3D" id="Mat_fill"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.2, 0.05, 0.25)
+
+[sub_resource type="CylinderMesh" id="Mesh_fill"]
+material = SubResource("Mat_fill")
+top_radius = 3.85
+bottom_radius = 3.85
+height = 0.02
+
+[node name="MeteorWarning" type="Node3D"]
+script = SubResource("GDScript_warning")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.05, 0)
+mesh = SubResource("Mesh_ring")
+
+[node name="Fill" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.04, 0)
+scale = Vector3(0.01, 1, 0.01)
+mesh = SubResource("Mesh_fill")

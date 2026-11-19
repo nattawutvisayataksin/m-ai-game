@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/classes/EnemyData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/BannerWarden.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"banner_warden"
+display_name = "Banner Warden"
+max_hp = 150.0
+speed = 1.7
+armor = 0.25
+magic_resist = 0.1
+gold_reward = 22
+lives_damage = 2
+is_flying = false
+attack_damage = 12.0
+attack_interval = 1.6
+attack_range = 1.8
+scene = ExtResource("2_scene")

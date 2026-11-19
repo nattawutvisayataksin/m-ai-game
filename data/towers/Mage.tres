@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://data/classes/TowerData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/towers/MageTower.tscn" id="2_tower"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/MagicBolt.tscn" id="3_projectile"]
+[ext_resource type="Resource" path="res://data/towers/Mage2.tres" id="4_upgrade"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"mage"
+display_name = "Mage Tower"
+cost = 110
+damage_min = 10.0
+damage_max = 14.0
+damage_type = 1
+attack_range = 7.5
+fire_rate = 1.1
+slow_amount = 0.3
+slow_duration = 1.5
+can_hit_flying = true
+projectile_scene = ExtResource("3_projectile")
+tower_scene = ExtResource("2_tower")
+upgrade_to = Array[ExtResource("1_data")]([ExtResource("4_upgrade")])
+sell_ratio = 0.7

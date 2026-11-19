@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/towers/Soldier.gd" id="1_soldier"]
+[ext_resource type="Script" path="res://scripts/ui/HealthBar.gd" id="2_health"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_armor"]
+albedo_color = Color(0.25, 0.45, 0.65, 1)
+metallic = 0.5
+roughness = 0.4
+
+[sub_resource type="CapsuleMesh" id="Mesh_soldier"]
+material = SubResource("Mat_armor")
+radius = 0.35
+height = 1.5
+
+[node name="VeteranSoldier" type="Node3D"]
+script = ExtResource("1_soldier")
+max_hp = 110.0
+damage = 16.0
+attack_rate = 1.2
+move_speed = 4.5
+
+[node name="Model" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.75, 0)
+mesh = SubResource("Mesh_soldier")
+
+[node name="HealthBar" type="Sprite3D" parent="."]
+position = Vector3(0, 2.0, 0)
+scale = Vector3(0.75, 0.75, 0.75)
+script = ExtResource("2_health")

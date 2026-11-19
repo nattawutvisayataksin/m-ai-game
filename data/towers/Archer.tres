@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://data/classes/TowerData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/towers/BasicTower.tscn" id="2_tower"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/Arrow.tscn" id="3_projectile"]
+[ext_resource type="Resource" path="res://data/towers/Archer2.tres" id="4_upgrade"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"archer"
+display_name = "Archer Tower"
+cost = 70
+damage_min = 8.0
+damage_max = 12.0
+damage_type = 0
+attack_range = 8.0
+fire_rate = 1.6
+can_hit_flying = true
+projectile_scene = ExtResource("3_projectile")
+tower_scene = ExtResource("2_tower")
+upgrade_to = Array[ExtResource("1_data")]([ExtResource("4_upgrade")])
+sell_ratio = 0.7

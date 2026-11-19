@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/RadialBuildMenu.gd" id="1_menu"]
+
+[node name="RadialBuildMenu" type="CanvasLayer"]
+script = ExtResource("1_menu")
+
+[node name="Panel" type="PanelContainer" parent="."]
+offset_left = 410.0
+offset_top = 210.0
+offset_right = 870.0
+offset_bottom = 510.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Build Tower"
+horizontal_alignment = 1
+
+[node name="Tower1" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Tower 1"
+
+[node name="Tower2" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Tower 2"
+
+[node name="Tower3" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Tower 3"
+
+[node name="Tower4" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Tower 4"
+
+[node name="Upgrade" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Upgrade"
+
+[node name="Mode" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Target"
+
+[node name="Sell" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Sell"

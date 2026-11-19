@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/classes/EnemyData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/CrystalWisp.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"crystal_wisp"
+display_name = "Crystal Wisp"
+max_hp = 55.0
+speed = 2.4
+armor = 0.0
+magic_resist = 0.35
+gold_reward = 14
+lives_damage = 1
+is_flying = true
+attack_damage = 6.0
+attack_interval = 1.4
+attack_range = 1.8
+scene = ExtResource("2_scene")

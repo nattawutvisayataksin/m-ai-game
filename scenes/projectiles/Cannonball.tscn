@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/Projectile.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/vfx/MeteorBlast.tscn" id="2_vfx"]
+
+[sub_resource type="SphereMesh" id="Mesh_ball"]
+radius = 0.18
+height = 0.36
+radial_segments = 10
+rings = 6
+
+[sub_resource type="StandardMaterial3D" id="Mat_iron"]
+albedo_color = Color(0.16, 0.15, 0.18, 1)
+metallic = 0.7
+roughness = 0.4
+
+[node name="Cannonball" type="Node3D"]
+script = ExtResource("1")
+motion = 1
+speed = 12.0
+arc_height = 4.0
+impact_vfx = ExtResource("2_vfx")
+impact_scale = 0.45
+
+[node name="Ball" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_ball")
+material_override = SubResource("Mat_iron")

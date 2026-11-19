@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/BossHealthBar.gd" id="1_bossbar"]
+
+[node name="BossHealthBar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_bossbar")
+
+[node name="Container" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 180.0
+offset_right = 940.0
+offset_bottom = 252.0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Container"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 584.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Name" type="Label" parent="Container/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.03, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "BOSS"
+horizontal_alignment = 1
+
+[node name="Health" type="ProgressBar" parent="Container/VBox"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+mouse_filter = 2
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HealthText" type="Label" parent="Container/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "0 / 0"
+horizontal_alignment = 1

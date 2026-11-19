@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/BuildSpot.gd" id="1_build"]
+[ext_resource type="PackedScene" path="res://scenes/vfx/BuildBurst.tscn" id="2_burst"]
+
+[sub_resource type="CylinderMesh" id="Cylinder_ring"]
+top_radius = 1.8
+bottom_radius = 1.8
+height = 0.04
+
+[sub_resource type="StandardMaterial3D" id="Material_ring"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.2, 0.85, 1, 0.8)
+emission_enabled = true
+emission = Color(0.05, 0.6, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="CylinderShape3D" id="Shape_build"]
+radius = 1.5
+height = 0.5
+
+[node name="BuildSpot" type="Area3D"]
+script = ExtResource("1_build")
+upgrade_burst_scene = ExtResource("2_burst")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_build")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("Cylinder_ring")
+material_override = SubResource("Material_ring")

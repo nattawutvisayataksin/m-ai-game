@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://data/classes/TowerData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/towers/Barracks.tscn" id="2_tower"]
+[ext_resource type="Resource" path="res://data/towers/Barracks2.tres" id="3_upgrade"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"barracks"
+display_name = "Barracks"
+cost = 100
+damage_min = 4.0
+damage_max = 6.0
+damage_type = 0
+attack_range = 8.0
+fire_rate = 0.5
+can_hit_flying = false
+tower_scene = ExtResource("2_tower")
+upgrade_to = Array[ExtResource("1_data")]([ExtResource("3_upgrade")])
+sell_ratio = 0.7

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/towers/Barracks.gd" id="1_barracks"]
+[ext_resource type="PackedScene" path="res://scenes/towers/VeteranSoldier.tscn" id="2_veteran"]
+
+[sub_resource type="SphereShape3D" id="Sphere_detection"]
+radius = 8.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_stone_heavy"]
+albedo_color = Color(0.22, 0.26, 0.32, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="Cylinder_base"]
+material = SubResource("Mat_stone_heavy")
+top_radius = 1.3
+bottom_radius = 1.35
+height = 1.2
+
+[node name="Barracks2" type="Node3D"]
+script = ExtResource("1_barracks")
+soldier_scene = ExtResource("2_veteran")
+rally_range = 9.5
+respawn_seconds = 7.0
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("Cylinder_base")
+
+[node name="Turret" type="Node3D" parent="."]
+
+[node name="Muzzle" type="Marker3D" parent="Turret"]
+
+[node name="DetectionArea" type="Area3D" parent="."]
+monitoring = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+shape = SubResource("Sphere_detection")

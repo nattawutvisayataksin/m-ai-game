@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/WorldMap.gd" id="1_map"]
+
+[node name="WorldMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_map")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 40.0
+offset_right = 800.0
+offset_bottom = 85.0
+text = "Crystal Bastion"
+horizontal_alignment = 1
+
+[node name="Shards" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 34.0
+offset_right = 324.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.55, 0.95, 1, 1)
+text = "Crystal Shards: 0"
+
+[node name="Blessings" type="Button" parent="."]
+layout_mode = 0
+offset_left = 908.0
+offset_top = 34.0
+offset_right = 1060.0
+offset_bottom = 76.0
+text = "Blessings"
+
+[node name="Level1" type="Button" parent="."]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 260.0
+offset_right = 390.0
+offset_bottom = 340.0
+text = "The Meadow\n☆☆☆"
+
+[node name="Level2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 535.0
+offset_top = 180.0
+offset_right = 745.0
+offset_bottom = 260.0
+text = "Crystal Pass\nLocked"
+
+[node name="Level3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 890.0
+offset_top = 300.0
+offset_right = 1100.0
+offset_bottom = 380.0
+text = "Bastion Gate\nLocked"
+
+[node name="Level4" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1020.0
+offset_top = 460.0
+offset_right = 1230.0
+offset_bottom = 540.0
+text = "Crystal Crossroads\nLocked"
+
+[node name="Status" type="Label" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 600.0
+offset_right = 800.0
+offset_bottom = 640.0
+text = "Select a level"
+horizontal_alignment = 1
+
+[node name="Progress" type="Label" parent="."]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 644.0
+offset_right = 880.0
+offset_bottom = 678.0
+theme_override_colors/font_color = Color(0.72, 0.9, 0.95, 1)
+text = "Total stars: 0 / 12"
+horizontal_alignment = 1
+
+[node name="Settings" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1080.0
+offset_top = 34.0
+offset_right = 1232.0
+offset_bottom = 76.0
+text = "Settings"

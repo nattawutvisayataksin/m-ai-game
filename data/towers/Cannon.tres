@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://data/classes/TowerData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/towers/CannonTower.tscn" id="2_tower"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/Cannonball.tscn" id="3_projectile"]
+[ext_resource type="Resource" path="res://data/towers/Cannon2.tres" id="4_upgrade"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"cannon"
+display_name = "Cannon Tower"
+cost = 130
+damage_min = 22.0
+damage_max = 30.0
+damage_type = 0
+attack_range = 7.0
+fire_rate = 0.55
+aoe_radius = 2.2
+can_hit_flying = false
+projectile_scene = ExtResource("3_projectile")
+tower_scene = ExtResource("2_tower")
+upgrade_to = Array[ExtResource("1_data")]([ExtResource("4_upgrade")])
+sell_ratio = 0.7

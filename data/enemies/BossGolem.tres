@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/classes/EnemyData.gd" id="1_data"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/BossGolem.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_data")
+id = &"boss_golem"
+display_name = "Ancient Golem"
+max_hp = 450.0
+speed = 1.2
+armor = 0.25
+magic_resist = 0.15
+gold_reward = 50
+lives_damage = 5
+is_flying = false
+is_boss = true
+attack_damage = 35.0
+attack_interval = 1.8
+attack_range = 2.4
+scene = ExtResource("2_scene")

@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/Projectile.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/vfx/ImpactSpark.tscn" id="2_vfx"]
+
+[sub_resource type="BoxMesh" id="Mesh_shaft"]
+size = Vector3(0.05, 0.05, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.45, 0.29, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_tip"]
+top_radius = 0.0
+bottom_radius = 0.06
+height = 0.2
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="Mat_metal"]
+albedo_color = Color(0.72, 0.76, 0.82, 1)
+metallic = 0.7
+roughness = 0.35
+
+[node name="Arrow" type="Node3D"]
+script = ExtResource("1")
+motion = 0
+speed = 22.0
+impact_vfx = ExtResource("2_vfx")
+
+[node name="Shaft" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.08)
+mesh = SubResource("Mesh_shaft")
+material_override = SubResource("Mat_wood")
+
+[node name="Tip" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0, 0.44)
+rotation_degrees = Vector3(90, 0, 0)
+mesh = SubResource("Mesh_tip")
+material_override = SubResource("Mat_metal")
