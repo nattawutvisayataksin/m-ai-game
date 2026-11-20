@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="SphereMesh" id="RockMesh_A"]
+radius = 0.9
+height = 0.7
+radial_segments = 7
+rings = 3
+
+[sub_resource type="SphereMesh" id="RockMesh_B"]
+radius = 0.6
+height = 0.5
+radial_segments = 6
+rings = 3
+
+[sub_resource type="SphereMesh" id="RockMesh_C"]
+radius = 0.45
+height = 0.4
+radial_segments = 5
+rings = 3
+
+[sub_resource type="StandardMaterial3D" id="RockMaterial"]
+albedo_color = Color(0.2, 0.24, 0.28, 1)
+roughness = 0.98
+
+[node name="RockCluster" type="Node3D"]
+
+[node name="RockA" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.28, 0)
+scale = Vector3(1.25, 1.0, 1.1)
+mesh = SubResource("RockMesh_A")
+material_override = SubResource("RockMaterial")
+
+[node name="RockB" type="MeshInstance3D" parent="."]
+position = Vector3(0.95, 0.2, 0.35)
+rotation_degrees = Vector3(0, 42, 0)
+scale = Vector3(1.1, 0.9, 1.0)
+mesh = SubResource("RockMesh_B")
+material_override = SubResource("RockMaterial")
+
+[node name="RockC" type="MeshInstance3D" parent="."]
+position = Vector3(-0.8, 0.15, -0.4)
+rotation_degrees = Vector3(0, -28, 0)
+mesh = SubResource("RockMesh_C")
+material_override = SubResource("RockMaterial")

@@ -6,6 +6,15 @@
 - Branch: `main`, based on `cd7082b` (`Complete Crystal Bastion campaign finale`).
 - The current workspace changes are intended to be committed together. They include existing local gameplay/UI work and the recent Codex improvements.
 
+## Latest pass — environment identity
+
+- Added three reusable, non-colliding scenery scenes: `CrystalCluster`, `RuinArch`, and `RockCluster` under `scenes/world/`.
+- Dressed Levels 02–04 with a perimeter pine line plus level-specific crystal clusters, ruin arches, and rocks. Existing paths and BuildSpot positions are unchanged.
+- Fixed a tower bug where every instance of a tower scene shared one `SphereShape3D` sub-resource, so upgrading one Archer widened the detection radius of every Archer. `Tower._ready()` now duplicates the shape before applying `attack_range`.
+- Added `tools/_smoke_scenery.tscn`, which validates scenery clearance against lane samples and build spots, and asserts that Archer and Archer II keep independent detection ranges.
+
+Validation: `godot --headless --path . res://tools/_smoke_scenery.tscn` reports 22 props per level, minimum lane clearance 4.0–6.0 m, minimum BuildSpot clearance 8.9–9.6 m, `range base=8.0 upgraded=9.0 shared=false`, and `failures=0`.
+
 ## Work in this handoff
 
 - Replaced procedural placeholder sound effects with 13 imported WAV effects for tower shots, impacts, building, coins, waves, abilities, outcomes, and campaign completion. The music bed remains procedural.
@@ -24,9 +33,9 @@
 
 ## Suggested next steps
 
-1. Open Level 01 in the Godot Editor and visually confirm the pine framing from the live gameplay camera.
+1. Open Levels 01–04 in the Godot Editor and visually confirm the perimeter framing from the live gameplay camera.
 2. Continue tracking down headless shutdown resource warnings if clean smoke output is required.
-3. Expand environmental props and authored models across Levels 02–04 while preserving their existing paths and BuildSpot positions.
+3. Consider replacing the shared pine GLB with a second authored tree/rock variant so perimeter lines read less repetitive.
 
 ## Run and smoke checks
 

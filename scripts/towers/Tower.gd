@@ -37,7 +37,11 @@ func _ready() -> void:
 		var shape_node := detection_area.get_child(0) as CollisionShape3D
 		var sphere := shape_node.shape as SphereShape3D if shape_node else null
 		if sphere:
-			sphere.radius = data.attack_range
+			# Scene sub-resources are shared by every instance of the same
+			# PackedScene, so duplicate before applying per-tower range data.
+			var own_sphere := sphere.duplicate() as SphereShape3D
+			own_sphere.radius = data.attack_range
+			shape_node.shape = own_sphere
 	_build_range_ring()
 	EventBus.tower_selected.connect(_on_tower_selected)
 	EventBus.build_spot_clicked.connect(_on_other_selection)
