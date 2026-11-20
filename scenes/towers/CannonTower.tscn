@@ -1,6 +1,7 @@
 [gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/towers/Tower.gd" id="1_tower"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/cannontower.glb" id="2_model"]
 
 [sub_resource type="CylinderMesh" id="Mesh_base"]
 top_radius = 1.0
@@ -35,6 +36,8 @@ height = 1.0
 [node name="CannonTower" type="Node3D"]
 script = ExtResource("1_tower")
 
+[node name="Model" parent="." instance=ExtResource("2_model")]
+
 [node name="Base" type="MeshInstance3D" parent="."]
 position = Vector3(0, 0.5, 0)
 mesh = SubResource("Mesh_base")
@@ -56,6 +59,12 @@ material_override = SubResource("Mat_iron")
 
 [node name="Muzzle" type="Marker3D" parent="Turret"]
 position = Vector3(0, 0.48, 1.35)
+
+[node name="AttackFlash" type="OmniLight3D" parent="Turret"]
+position = Vector3(0, 0.48, 1.15)
+light_color = Color(1, 0.24, 0.08, 1)
+light_energy = 0.0
+omni_range = 3.0
 
 [node name="DetectionArea" type="Area3D" parent="."]
 monitoring = true

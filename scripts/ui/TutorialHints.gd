@@ -21,7 +21,7 @@ func _ready() -> void:
 	EventBus.enemy_reached_end.connect(_on_enemy_reached_end)
 	EventBus.hero_level_changed.connect(_on_hero_level_changed)
 	EventBus.level_won.connect(_on_level_won)
-	show_hint("START HERE  •  Click a cyan ring, then choose a tower.\nPress Next Wave when ready. Meteor auto-aims (1); reinforcements (2).\nCamera: WASD / screen edge to pan, Q/E to rotate, wheel to zoom.", 16.0)
+	show_hint("START HERE  •  Ctrl + Left Click on open ground to place a tower.\nClick the glowing route to see where enemies travel.\nRight-click ground to move Hero. Press 1 for Meteor, 2 for Reinforcements.", 16.0)
 
 func show_hint(text: String, hold: float = 4.5) -> void:
 	if not is_inside_tree():

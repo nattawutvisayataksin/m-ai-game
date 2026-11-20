@@ -21,11 +21,15 @@ var _cooldown: float = 0.0
 var _retarget_timer: float = 0.0
 var _range_ring: MeshInstance3D
 var _status_label: Label3D
+var _idle_time: float = 0.0
+var _turret_base_y: float = 0.0
 
 func _ready() -> void:
 	add_to_group(&"towers")
 	if turret == null:
 		turret = get_node_or_null("Turret") as Node3D
+	if turret != null:
+		_turret_base_y = turret.position.y
 	if muzzle == null and turret != null:
 		muzzle = turret.get_node_or_null("Muzzle") as Marker3D
 	if data == null:
@@ -62,6 +66,8 @@ func _build_range_ring() -> void:
 	_range_ring.position.y = 0.12
 	_range_ring.visible = false
 	add_child(_range_ring)
+	if data != null:
+		_range_ring.scale = Vector3.ONE * 1.02
 
 func _on_tower_selected(selected: Node3D) -> void:
 	if _range_ring:
@@ -72,6 +78,9 @@ func _on_other_selection(_spot: Node3D) -> void:
 		_range_ring.visible = false
 
 func _physics_process(delta: float) -> void:
+	_idle_time += delta
+	if turret != null and not is_disabled:
+		turret.position.y = _turret_base_y + sin(_idle_time * 2.2) * 0.012
 	if is_disabled:
 		return
 	_cooldown -= delta
@@ -188,10 +197,23 @@ func _fire() -> void:
 	var projectile := ProjectilePool.acquire(data.projectile_scene) as Projectile
 	var from: Vector3 = muzzle.global_position if muzzle else global_position + Vector3.UP * 3.0
 	projectile.launch(from, target, data)
+	_play_turret_attack()
 	EventBus.tower_fired.emit(from)
 	if fire_sound:
 		AudioPool.play_at(fire_sound, from)
 	_recoil()
+
+func _play_turret_attack() -> void:
+	if turret == null:
+		return
+	var attack_tween := create_tween()
+	attack_tween.tween_property(turret, "rotation:z", deg_to_rad(-5.0), 0.04)
+	attack_tween.tween_property(turret, "rotation:z", 0.0, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var flash := turret.get_node_or_null("AttackFlash") as OmniLight3D
+	if flash:
+		flash.light_energy = 2.5
+		var flash_tween := create_tween()
+		flash_tween.tween_property(flash, "light_energy", 0.0, 0.12)
 
 func _recoil() -> void:
 	if turret == null:

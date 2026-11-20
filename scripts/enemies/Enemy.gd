@@ -25,6 +25,7 @@ var _poison_dps: float = 0.0
 var _poison_time: float = 0.0
 var _buff_time: float = 0.0
 var _attack_cooldown: float = 0.0
+var _status_tween: Tween
 
 func _ready() -> void:
 	if data == null:
@@ -51,6 +52,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
+	if model != null and not is_blocked:
+		model.position.y = sin(Time.get_ticks_msec() * 0.006 + progress) * (0.018 if data.is_flying else 0.006)
 	_tick_status(delta)
 	if is_dead:
 		return
@@ -86,6 +89,8 @@ func _attack(target: Node3D) -> void:
 	if _attack_cooldown > 0.0:
 		return
 	_attack_cooldown = data.attack_interval
+	_play(&"Attack")
+	_pulse_model(Color(1.0, 0.35, 0.2, 1.0))
 	target.call(&"take_damage", data.attack_damage)
 
 func remaining_distance() -> float:
@@ -158,6 +163,13 @@ func _die() -> void:
 		EventBus.boss_died.emit(self)
 		EventBus.camera_shake.emit(0.8)
 	_play(&"Die")
+	model.scale = Vector3.ONE
+	var death_tween := create_tween()
+	death_tween.set_parallel(true)
+	death_tween.tween_property(model, "rotation:z", deg_to_rad(-18.0), 0.22)
+	death_tween.tween_property(model, "position:y", 0.18, 0.22)
+	death_tween.set_parallel(false)
+	death_tween.tween_property(model, "scale", Vector3(0.82, 0.82, 0.82), 0.28)
 	var tw := create_tween()
 	tw.tween_interval(0.5)
 	tw.tween_method(_set_dissolve, 0.0, 1.0, 0.5)
@@ -176,6 +188,16 @@ func _flash() -> void:
 		_flash_tween.kill()
 	_flash_tween = create_tween()
 	_flash_tween.tween_method(_set_flash, 1.0, 0.0, 0.12)
+	_pulse_model(Color.WHITE)
+
+func _pulse_model(color: Color) -> void:
+	if model == null:
+		return
+	if _status_tween:
+		_status_tween.kill()
+	_status_tween = create_tween()
+	_status_tween.tween_property(model, "scale", Vector3.ONE * 1.06, 0.06)
+	_status_tween.tween_property(model, "scale", Vector3.ONE, 0.12)
 
 func _set_flash(value: float) -> void:
 	for mesh in _meshes:
@@ -197,6 +219,8 @@ func _setup_loops() -> void:
 	for anim_name: StringName in [&"Walk", &"Idle"]:
 		if _anim.has_animation(anim_name):
 			_anim.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
+	if _anim and _anim.has_animation(&"Walk"):
+		_anim.get_animation(&"Walk").loop_mode = Animation.LOOP_LINEAR
 
 func _play(anim_name: StringName) -> void:
 	if _anim and _anim.has_animation(anim_name):

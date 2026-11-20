@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3]
+
+[sub_resource type="CylinderMesh" id="Mesh_pedestal"]
+top_radius = 2.1
+bottom_radius = 2.6
+height = 0.55
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="Mat_pedestal"]
+albedo_color = Color(0.16, 0.23, 0.31, 1)
+roughness = 0.72
+
+[sub_resource type="PrismMesh" id="Mesh_crystal"]
+size = Vector3(1.7, 4.2, 1.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_crystal"]
+albedo_color = Color(0.18, 0.82, 0.95, 1)
+emission_enabled = true
+emission = Color(0.04, 0.42, 0.8, 1)
+emission_energy_multiplier = 3.5
+roughness = 0.18
+
+[sub_resource type="CylinderMesh" id="Mesh_pillar"]
+top_radius = 0.32
+bottom_radius = 0.42
+height = 3.2
+radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="Mat_pillar"]
+albedo_color = Color(0.32, 0.38, 0.48, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="Mesh_banner"]
+size = Vector3(0.9, 1.35, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Mat_banner"]
+albedo_color = Color(0.82, 0.2, 0.27, 1)
+roughness = 0.7
+
+[sub_resource type="TorusMesh" id="Mesh_ring"]
+inner_radius = 2.3
+outer_radius = 2.42
+rings = 48
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="Mat_ring"]
+shading_mode = 0
+albedo_color = Color(0.25, 0.9, 1, 0.78)
+emission_enabled = true
+emission = Color(0.05, 0.55, 1, 1)
+emission_energy_multiplier = 2.5
+transparency = 1
+
+[node name="Level01Landmark" type="Node3D"]
+
+[node name="Pedestal" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.275, 0)
+mesh = SubResource("Mesh_pedestal")
+material_override = SubResource("Mat_pedestal")
+
+[node name="Crystal" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2.35, 0)
+rotation_degrees = Vector3(0, 45, 0)
+mesh = SubResource("Mesh_crystal")
+material_override = SubResource("Mat_crystal")
+
+[node name="PillarLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-2.2, 1.6, 0)
+mesh = SubResource("Mesh_pillar")
+material_override = SubResource("Mat_pillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="."]
+position = Vector3(2.2, 1.6, 0)
+mesh = SubResource("Mesh_pillar")
+material_override = SubResource("Mat_pillar")
+
+[node name="BannerLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-2.2, 2.45, -0.04)
+mesh = SubResource("Mesh_banner")
+material_override = SubResource("Mat_banner")
+
+[node name="BannerRight" type="MeshInstance3D" parent="."]
+position = Vector3(2.2, 2.45, -0.04)
+mesh = SubResource("Mesh_banner")
+material_override = SubResource("Mat_banner")
+
+[node name="GlowRing" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.58, 0)
+mesh = SubResource("Mesh_ring")
+material_override = SubResource("Mat_ring")
+
+[node name="Light" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.2, 0)
+light_color = Color(0.18, 0.75, 1, 1)
+light_energy = 2.2
+omni_range = 9.0
+shadow_enabled = true

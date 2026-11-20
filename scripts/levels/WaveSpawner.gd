@@ -12,6 +12,9 @@ var waiting_for_next: bool = true
 var _active_groups: int = 0
 
 func _ready() -> void:
+	if level_data != null:
+		time_between_waves = maxf(level_data.time_between_waves, 0.0)
+		early_call_gold_per_sec = maxf(level_data.early_call_gold_per_sec, 0.0)
 	_resolve_paths()
 	EventBus.enemy_died.connect(_on_enemy_removed.unbind(2))
 	EventBus.enemy_reached_end.connect(_on_enemy_removed.unbind(2))

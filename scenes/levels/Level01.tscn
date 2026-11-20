@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/Level01.gd" id="1_level"]
 [ext_resource type="Resource" path="res://data/levels/Level01.tres" id="2_data"]
@@ -18,6 +18,11 @@
 [ext_resource type="Environment" path="res://assets/environment/stylized_environment.tres" id="16_env"]
 [ext_resource type="PackedScene" path="res://scenes/ui/TutorialHints.tscn" id="17_hints"]
 [ext_resource type="PackedScene" path="res://assets/models/generated/stylized_pine.glb" id="18_pine"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/stylized_broadleaf.glb" id="19_broadleaf"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/stylized_rock_spire.glb" id="20_spire"]
+[ext_resource type="PackedScene" path="res://scenes/world/Level01Landmark.tscn" id="21_landmark"]
+[ext_resource type="Script" path="res://scripts/world/PathRouteVisual.gd" id="22_route"]
+[ext_resource type="Script" path="res://scripts/world/FreeBuildController.gd" id="23_free_build"]
 
 [sub_resource type="Environment" id="Environment_level"]
 background_mode = 1
@@ -76,6 +81,12 @@ navigation_mesh = SubResource("NavigationMesh_level")
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("PathCurve")
 
+[node name="RouteVisual" type="MeshInstance3D" parent="Path3D"]
+script = ExtResource("22_route")
+
+[node name="FreeBuildController" type="Node3D" parent="."]
+script = ExtResource("23_free_build")
+
 [node name="WaveSpawner" type="Node" parent="."]
 script = ExtResource("3_spawner")
 level_data = ExtResource("2_data")
@@ -86,11 +97,23 @@ bounds = Rect2(-25, -25, 50, 50)
 [node name="Hero" parent="." instance=ExtResource("6_hero")]
 position = Vector3(0, 0.9, 4)
 
+[node name="CrystalBastion" parent="." instance=ExtResource("21_landmark")]
+position = Vector3(0, 0, -7)
+
 [node name="BuildSpot1" parent="." instance=ExtResource("7_spot")]
 position = Vector3(-5, 0, 2)
 
 [node name="BuildSpot2" parent="." instance=ExtResource("7_spot")]
 position = Vector3(4, 0, -2)
+
+[node name="BuildSpot3" parent="." instance=ExtResource("7_spot")]
+position = Vector3(-13, 0, 5)
+
+[node name="BuildSpot4" parent="." instance=ExtResource("7_spot")]
+position = Vector3(-1, 0, -11)
+
+[node name="BuildSpot5" parent="." instance=ExtResource("7_spot")]
+position = Vector3(12, 0, 4)
 
 [node name="GameHUD" parent="." instance=ExtResource("4_hud")]
 wave_spawner_path = NodePath("../WaveSpawner")
@@ -166,3 +189,37 @@ scale = Vector3(0.7, 0.7, 0.7)
 position = Vector3(15, 0, 21)
 rotation_degrees = Vector3(0, 196, 0)
 scale = Vector3(0.8, 0.8, 0.8)
+
+[node name="Broadleaf01" parent="Scenery" instance=ExtResource("19_broadleaf")]
+position = Vector3(-22, 0, 7)
+rotation_degrees = Vector3(0, 25, 0)
+scale = Vector3(0.75, 0.75, 0.75)
+
+[node name="Broadleaf02" parent="Scenery" instance=ExtResource("19_broadleaf")]
+position = Vector3(22, 0, 7)
+rotation_degrees = Vector3(0, 100, 0)
+scale = Vector3(0.7, 0.7, 0.7)
+
+[node name="Broadleaf03" parent="Scenery" instance=ExtResource("19_broadleaf")]
+position = Vector3(-8, 0, -22)
+rotation_degrees = Vector3(0, 160, 0)
+scale = Vector3(0.68, 0.68, 0.68)
+
+[node name="Broadleaf04" parent="Scenery" instance=ExtResource("19_broadleaf")]
+position = Vector3(9, 0, 22)
+rotation_degrees = Vector3(0, 210, 0)
+scale = Vector3(0.72, 0.72, 0.72)
+
+[node name="RockSpire01" parent="Scenery" instance=ExtResource("20_spire")]
+position = Vector3(-21, 0, -21)
+rotation_degrees = Vector3(0, 15, 0)
+
+[node name="RockSpire02" parent="Scenery" instance=ExtResource("20_spire")]
+position = Vector3(21, 0, 21)
+rotation_degrees = Vector3(0, 70, 0)
+scale = Vector3(0.95, 0.95, 0.95)
+
+[node name="RockSpire03" parent="Scenery" instance=ExtResource("20_spire")]
+position = Vector3(-23, 0, -11)
+rotation_degrees = Vector3(0, 40, 0)
+scale = Vector3(0.9, 0.9, 0.9)

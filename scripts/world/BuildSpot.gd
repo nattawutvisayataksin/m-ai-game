@@ -7,10 +7,11 @@ extends Area3D
 @export var upgrade_burst_scene: PackedScene
 
 var tower: Tower = null
+@export var is_unlocked: bool = true
 
 func _ready() -> void:
 	input_ray_pickable = true
-	ring.visible = tower == null
+	_update_visual_state()
 	mouse_entered.connect(_on_hover.bind(true))
 	mouse_exited.connect(_on_hover.bind(false))
 
@@ -24,7 +25,7 @@ func _input_event(_camera: Camera3D, event: InputEvent, _position: Vector3, _nor
 		get_viewport().set_input_as_handled()
 
 func build(tower_data: TowerData) -> bool:
-	if tower != null or tower_data == null or tower_data.tower_scene == null:
+	if not is_unlocked or tower != null or tower_data == null or tower_data.tower_scene == null:
 		return false
 	if not Economy.spend(tower_data.cost):
 		return false
@@ -50,6 +51,10 @@ func sell() -> void:
 	tower = null
 	ring.visible = true
 
+func set_unlocked(value: bool) -> void:
+	is_unlocked = value
+	_update_visual_state()
+
 func _place(tower_data: TowerData, spent: int, mode: Tower.TargetMode) -> void:
 	if tower_data.tower_scene == null:
 		return
@@ -70,4 +75,7 @@ func _place(tower_data: TowerData, spent: int, mode: Tower.TargetMode) -> void:
 		burst.position = Vector3.UP * 0.5
 
 func _on_hover(is_over: bool) -> void:
-	ring.visible = is_over and tower == null
+	ring.visible = is_over and tower == null and is_unlocked
+
+func _update_visual_state() -> void:
+	ring.visible = tower == null and is_unlocked

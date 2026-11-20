@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/Level02.gd" id="1_level"]
 [ext_resource type="Resource" path="res://data/levels/Level02.tres" id="2_data"]
@@ -20,6 +20,8 @@
 [ext_resource type="PackedScene" path="res://scenes/world/CrystalCluster.tscn" id="18_crystals"]
 [ext_resource type="PackedScene" path="res://scenes/world/RuinArch.tscn" id="19_arch"]
 [ext_resource type="PackedScene" path="res://scenes/world/RockCluster.tscn" id="20_rocks"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/stylized_broadleaf.glb" id="21_broadleaf"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/stylized_rock_spire.glb" id="22_spire"]
 
 [sub_resource type="Environment" id="Environment_level"]
 background_mode = 1
@@ -251,3 +253,32 @@ rotation_degrees = Vector3(0, 80, 0)
 [node name="RockCluster3" parent="Scenery" instance=ExtResource("20_rocks")]
 position = Vector3(-12, 0, 20)
 rotation_degrees = Vector3(0, 120, 0)
+
+[node name="Broadleaf01" parent="Scenery" instance=ExtResource("21_broadleaf")]
+position = Vector3(-26, 0, 16)
+rotation_degrees = Vector3(0, 55, 0)
+scale = Vector3(0.78, 0.78, 0.78)
+
+[node name="Broadleaf02" parent="Scenery" instance=ExtResource("21_broadleaf")]
+position = Vector3(26, 0, 10)
+rotation_degrees = Vector3(0, 120, 0)
+scale = Vector3(0.72, 0.72, 0.72)
+
+[node name="Broadleaf03" parent="Scenery" instance=ExtResource("21_broadleaf")]
+position = Vector3(-7, 0, -27)
+rotation_degrees = Vector3(0, 190, 0)
+scale = Vector3(0.7, 0.7, 0.7)
+
+[node name="RockSpire01" parent="Scenery" instance=ExtResource("22_spire")]
+position = Vector3(8, 0, 27)
+rotation_degrees = Vector3(0, 20, 0)
+
+[node name="RockSpire02" parent="Scenery" instance=ExtResource("22_spire")]
+position = Vector3(7, 0, -27)
+rotation_degrees = Vector3(0, 65, 0)
+scale = Vector3(0.92, 0.92, 0.92)
+
+[node name="RockSpire03" parent="Scenery" instance=ExtResource("22_spire")]
+position = Vector3(26, 0, -20)
+rotation_degrees = Vector3(0, 130, 0)
+scale = Vector3(1.05, 1.05, 1.05)

@@ -24,6 +24,7 @@ const METEOR_WARNING_SCENE: PackedScene = preload("res://scenes/vfx/MeteorWarnin
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var model: Node3D = $Model
+@onready var animation_player: AnimationPlayer = $Model.find_child("AnimationPlayer", true, false) as AnimationPlayer
 
 var level: int = 1
 var xp: int = 0
@@ -37,11 +38,15 @@ var _spawn_position: Vector3
 var _attack_timer: float = 0.0
 var _respawn_timer: float = 0.0
 var _meteor_target: Vector3
+var _model_base_scale: Vector3 = Vector3.ONE
+var _attack_tween: Tween
+var _move_marker: MeshInstance3D
 
 func _ready() -> void:
 	EventBus.enemy_died.connect(_on_enemy_died)
 	add_to_group(&"heroes")
 	_spawn_position = global_position
+	_model_base_scale = model.scale
 	hp = max_hp
 	destination = global_position
 	navigation_agent.target_position = destination
@@ -61,6 +66,7 @@ func _physics_process(delta: float) -> void:
 	reinforcements_remaining = maxf(reinforcements_remaining - delta, 0.0)
 	_attack_timer = maxf(_attack_timer - delta, 0.0)
 	_move_to_destination(delta)
+	_play_animation(&"Walk" if velocity.length_squared() > 0.01 else &"Idle")
 	_auto_attack()
 	skill_cooldown_changed.emit(0, meteor_remaining, meteor_cooldown)
 	skill_cooldown_changed.emit(1, reinforcements_remaining, reinforcement_cooldown)
@@ -70,9 +76,29 @@ func set_move_destination(world_position: Vector3) -> void:
 		return
 	destination = world_position
 	navigation_agent.target_position = world_position
+	_show_move_marker(world_position)
+
+func _show_move_marker(world_position: Vector3) -> void:
+	if _move_marker == null:
+		_move_marker = MeshInstance3D.new()
+		var ring := TorusMesh.new()
+		ring.inner_radius = 0.28
+		ring.outer_radius = 0.4
+		ring.ring_segments = 24
+		_move_marker.mesh = ring
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = Color(0.25, 0.95, 0.9, 0.9)
+		material.emission_enabled = true
+		material.emission = Color(0.05, 0.7, 0.75, 1)
+		material.emission_energy_multiplier = 2.0
+		_move_marker.material_override = material
+		get_tree().current_scene.add_child(_move_marker)
+	_move_marker.global_position = world_position + Vector3.UP * 0.08
+	_move_marker.visible = true
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		var mouse_event := event as InputEventMouseButton
 		var camera := get_viewport().get_camera_3d()
 		if camera == null:
@@ -167,7 +193,19 @@ func _auto_attack() -> void:
 	var target := _nearest_enemy()
 	if target:
 		_attack_timer = 1.0 / attack_rate
+		_play_animation(&"Attack")
+		_punch_model()
 		target.take_damage(attack_damage, TowerData.DamageType.PHYSICAL)
+
+func _punch_model() -> void:
+	if model == null:
+		return
+	if _attack_tween:
+		_attack_tween.kill()
+	model.scale = _model_base_scale
+	_attack_tween = create_tween()
+	_attack_tween.tween_property(model, "scale", _model_base_scale * Vector3(1.08, 0.92, 1.08), 0.06)
+	_attack_tween.tween_property(model, "scale", _model_base_scale, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 func _nearest_enemy() -> Enemy:
 	var nearest: Enemy
@@ -212,6 +250,7 @@ func _on_enemy_died(_enemy: Node3D, _reward: int) -> void:
 
 func _die() -> void:
 	is_dead = true
+	_play_animation(&"Die")
 	hp = 0.0
 	visible = false
 	velocity = Vector3.ZERO
@@ -220,6 +259,7 @@ func _die() -> void:
 
 func _respawn() -> void:
 	is_dead = false
+	_play_animation(&"Idle")
 	visible = true
 	hp = max_hp
 	global_position = _spawn_position
@@ -227,6 +267,11 @@ func _respawn() -> void:
 
 func _emit_health() -> void:
 	EventBus.hero_health_changed.emit(hp, max_hp)
+
+func _play_animation(name: StringName) -> void:
+	if animation_player and animation_player.has_animation(name):
+		if animation_player.current_animation != name:
+			animation_player.play(name, 0.12)
 
 func _destroy_after(node: Node, seconds: float) -> void:
 	await get_tree().create_timer(seconds, false).timeout

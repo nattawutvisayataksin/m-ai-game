@@ -21,6 +21,8 @@ speed = 12.0
 arc_height = 4.0
 impact_vfx = ExtResource("2_vfx")
 impact_scale = 0.45
+trail_color = Color(1, 0.2, 0.08, 1)
+trail_length = 1.1
 
 [node name="Ball" type="MeshInstance3D" parent="."]
 mesh = SubResource("Mesh_ball")

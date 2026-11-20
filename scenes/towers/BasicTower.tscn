@@ -54,6 +54,12 @@ material_override = SubResource("Mat_wood")
 [node name="Muzzle" type="Marker3D" parent="Turret"]
 position = Vector3(0, 0.55, 0.75)
 
+[node name="AttackFlash" type="OmniLight3D" parent="Turret"]
+position = Vector3(0, 0.55, 0.7)
+light_color = Color(1, 0.7, 0.2, 1)
+light_energy = 0.0
+omni_range = 2.0
+
 [node name="DetectionArea" type="Area3D" parent="."]
 monitoring = true
 

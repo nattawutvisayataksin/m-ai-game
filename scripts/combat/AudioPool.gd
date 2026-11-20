@@ -7,6 +7,10 @@ const SFX_BUS: StringName = &"SFX"
 
 var _players: Array[AudioStreamPlayer3D] = []
 
+func _exit_tree() -> void:
+	stop_all()
+	_players.clear()
+
 func _ready() -> void:
 	_ensure_sfx_bus()
 	for index: int in pool_size:

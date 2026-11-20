@@ -9,6 +9,8 @@ enum Motion { HOMING, ARC }
 @export var arc_height: float = 3.0
 @export var impact_vfx: PackedScene
 @export var impact_scale: float = 1.0
+@export var trail_color: Color = Color(1.0, 0.75, 0.3, 1.0)
+@export var trail_length: float = 0.7
 
 var _target: Enemy
 var _data: TowerData
@@ -17,6 +19,7 @@ var _target_pos: Vector3
 var _t: float = 0.0
 var _flight_time: float = 0.5
 var _active: bool = false
+var _trail: MeshInstance3D
 
 func launch(from: Vector3, target: Enemy, tower_data: TowerData) -> void:
 	global_position = from
@@ -29,6 +32,9 @@ func launch(from: Vector3, target: Enemy, tower_data: TowerData) -> void:
 	_t = 0.0
 	_flight_time = maxf(from.distance_to(_target_pos) / speed, 0.15)
 	_active = true
+	_ensure_trail()
+	if _trail:
+		_trail.visible = true
 
 func _physics_process(delta: float) -> void:
 	if not _active:
@@ -55,6 +61,8 @@ func _physics_process(delta: float) -> void:
 
 func _impact() -> void:
 	_active = false
+	if _trail:
+		_trail.visible = false
 	if _data.aoe_radius > 0.0:
 		var radius_squared: float = _data.aoe_radius * _data.aoe_radius
 		for node in get_tree().get_nodes_in_group(&"enemies"):
@@ -74,6 +82,28 @@ func _impact() -> void:
 		effect.global_position = global_position
 		effect.scale = Vector3.ONE * impact_scale
 	ProjectilePool.release(self)
+
+func _ensure_trail() -> void:
+	if _trail != null:
+		return
+	_trail = MeshInstance3D.new()
+	var ribbon := RibbonTrailMesh.new()
+	ribbon.size = trail_length
+	ribbon.sections = 2
+	ribbon.section_length = trail_length * 0.5
+	_trail.mesh = ribbon
+	_trail.material_override = _trail_material()
+	_trail.visible = false
+	add_child(_trail)
+
+func _trail_material() -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.albedo_color = trail_color
+	material.emission_enabled = true
+	material.emission = trail_color
+	material.emission_energy_multiplier = 2.0
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	return material
 
 func _hit(enemy: Enemy) -> void:
 	var damage: float = randf_range(_data.damage_min, _data.damage_max) * MetaProgression.tower_damage_multiplier()

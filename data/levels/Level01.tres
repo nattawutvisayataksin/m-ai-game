@@ -75,3 +75,6 @@ start_gold = 500
 start_lives = 20
 enemy_hp_multiplier = 1.0
 waves = Array[ExtResource("4_wave")]([SubResource("WaveData_first"), SubResource("WaveData_second"), SubResource("WaveData_third")])
+time_between_waves = 20.0
+early_call_gold_per_sec = 1.5
+starting_build_spots = 1

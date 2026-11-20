@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/towers/Barracks.gd" id="1_barracks"]
 [ext_resource type="PackedScene" path="res://scenes/towers/Soldier.tscn" id="2_soldier"]
+[ext_resource type="PackedScene" path="res://assets/models/generated/barrackstower.glb" id="3_model"]
 
 [sub_resource type="SphereShape3D" id="Sphere_detection"]
 radius = 7.0
@@ -14,6 +15,8 @@ height = 1.0
 [node name="Barracks" type="Node3D"]
 script = ExtResource("1_barracks")
 soldier_scene = ExtResource("2_soldier")
+
+[node name="Model" parent="." instance=ExtResource("3_model")]
 
 [node name="Base" type="MeshInstance3D" parent="."]
 mesh = SubResource("Cylinder_base")

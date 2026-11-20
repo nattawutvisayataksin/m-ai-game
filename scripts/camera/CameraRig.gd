@@ -7,6 +7,7 @@ extends Node3D
 @export var zoom_step: float = 2.5
 @export var bounds: Rect2 = Rect2(-25, -25, 50, 50)
 @export var edge_margin: int = 12
+@export var viewport_padding_factor: float = 0.28
 
 @onready var cam: Camera3D = $Pitch/Camera3D
 
@@ -72,5 +73,18 @@ func _process(raw_delta: float) -> void:
 		cam.v_offset = 0.0
 
 func _clamp_to_bounds() -> void:
-	position.x = clampf(position.x, bounds.position.x, bounds.end.x)
-	position.z = clampf(position.z, bounds.position.y, bounds.end.y)
+	var padding: float = maxf(_zoom * viewport_padding_factor, 0.0)
+	var min_x: float = bounds.position.x + padding
+	var max_x: float = bounds.end.x - padding
+	var min_z: float = bounds.position.y + padding
+	var max_z: float = bounds.end.y - padding
+	if min_x > max_x:
+		var center_x: float = bounds.get_center().x
+		min_x = center_x
+		max_x = center_x
+	if min_z > max_z:
+		var center_z: float = bounds.get_center().y
+		min_z = center_z
+		max_z = center_z
+	position.x = clampf(position.x, min_x, max_x)
+	position.z = clampf(position.z, min_z, max_z)

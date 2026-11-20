@@ -2,6 +2,9 @@
 
 Run from the project root with:
     blender --background --python tools/blender/create_stylized_pine.py
+
+Coordinates are authored in Blender's Z-up space; the glTF exporter converts
+them to Godot's Y-up space so the trunk base sits at the origin.
 """
 
 from __future__ import annotations
@@ -36,7 +39,7 @@ def main() -> None:
     sunlit = make_material("Needles • sunlit tips", (0.20, 0.43, 0.25))
 
     bpy.ops.mesh.primitive_cylinder_add(
-        vertices=9, radius=0.24, depth=2.15, location=(0.0, 1.075, 0.0)
+        vertices=9, radius=0.24, depth=2.15, location=(0.0, 0.0, 1.075)
     )
     trunk = bpy.context.object
     trunk.name = "Pine_Trunk"
@@ -44,13 +47,13 @@ def main() -> None:
     parts = [trunk]
 
     crowns = ((2.45, 1.55, 1.95), (2.3, 1.27, 2.95), (2.05, 0.95, 3.82))
-    for index, (height, radius, center_y) in enumerate(crowns):
+    for index, (height, radius, center_z) in enumerate(crowns):
         bpy.ops.mesh.primitive_cone_add(
             vertices=9,
             radius1=radius,
             radius2=0.0,
             depth=height,
-            location=(0.0, center_y, 0.0),
+            location=(0.0, 0.0, center_z),
             rotation=(0.0, 0.0, math.radians(index * 11)),
         )
         crown = bpy.context.object

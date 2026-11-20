@@ -46,6 +46,7 @@ var _shards_total: int = 0
 var _disabled_until: Array[float] = []
 var _flash_tween: Tween
 var _lives_tween: Tween
+var _last_build_prompt: String = ""
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -99,6 +100,14 @@ func _process(delta: float) -> void:
 			next_wave_label.text = "Next: %s" % _wave_spawner.next_wave_summary()
 		else:
 			next_wave_label.text = "Enemies remaining: %d" % get_tree().get_nodes_in_group(&"enemies").size()
+		if _wave_spawner.current_wave < 0:
+			next_wave_label.text = "Build your first tower, then press Next Wave"
+		elif _wave_spawner.current_wave == 0 and _wave_spawner.waiting_for_next:
+			next_wave_label.text = "Wave 2 unlocks a second BuildSpot  •  Early call grants gold"
+		elif _wave_spawner.current_wave == 1 and _wave_spawner.waiting_for_next:
+			next_wave_label.text = "Prepare for Brutes: upgrade or add splash damage"
+		elif _wave_spawner.current_wave == 2 and _wave_spawner.waiting_for_next:
+			next_wave_label.text = "Final pressure: spend remaining gold before the last wave"
 		var in_play: bool = GameManager.state == GameManager.State.BUILD or GameManager.state == GameManager.State.WAVE
 		next_wave_button.disabled = not _wave_spawner.waiting_for_next or not in_play
 	_update_tower_alert()

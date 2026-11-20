@@ -20,6 +20,8 @@ script = ExtResource("1")
 motion = 0
 speed = 16.0
 impact_vfx = ExtResource("2_vfx")
+trail_color = Color(0.55, 0.25, 1, 1)
+trail_length = 0.9
 
 [node name="Orb" type="MeshInstance3D" parent="."]
 mesh = SubResource("Mesh_orb")

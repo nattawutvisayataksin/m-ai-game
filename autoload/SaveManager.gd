@@ -1,6 +1,8 @@
 extends Node
 
 const SAVE_PATH: String = "user://save.json"
+const TEMP_SAVE_PATH: String = "user://save.json.tmp"
+const BACKUP_SAVE_PATH: String = "user://save.json.bak"
 
 var data: Dictionary = {
 	"stars": {},
@@ -73,17 +75,37 @@ func set_upgrade(track: String, level: int) -> void:
 	save_game()
 
 func save_game() -> void:
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(data, "\t"))
+	var file := FileAccess.open(TEMP_SAVE_PATH, FileAccess.WRITE)
+	if file == null:
+		push_error("SaveManager: cannot open temporary save file")
+		return
+	file.store_string(JSON.stringify(data, "\t"))
+	file.close()
+	if FileAccess.file_exists(SAVE_PATH):
+		DirAccess.remove_absolute(BACKUP_SAVE_PATH)
+		DirAccess.rename_absolute(SAVE_PATH, BACKUP_SAVE_PATH)
+	var error := DirAccess.rename_absolute(TEMP_SAVE_PATH, SAVE_PATH)
+	if error != OK:
+		push_error("SaveManager: cannot replace save file: %s" % error_string(error))
+		if FileAccess.file_exists(BACKUP_SAVE_PATH):
+			DirAccess.rename_absolute(BACKUP_SAVE_PATH, SAVE_PATH)
 
 func load_game() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		return
 	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if file == null:
+		return
 	var parsed: Variant = JSON.parse_string(file.get_as_text())
 	if parsed is Dictionary:
 		data.merge(parsed, true)
+	elif FileAccess.file_exists(BACKUP_SAVE_PATH):
+		var backup := FileAccess.open(BACKUP_SAVE_PATH, FileAccess.READ)
+		if backup:
+			var backup_data: Variant = JSON.parse_string(backup.get_as_text())
+			if backup_data is Dictionary:
+				data.merge(backup_data, true)
+				push_warning("SaveManager: recovered from backup save")
 	data["stars"] = data.get("stars", default_data["stars"])
 	data["settings"] = default_data["settings"].merged(data.get("settings", {}), true)
 	data["upgrades"] = default_data["upgrades"].merged(data.get("upgrades", {}), true)
